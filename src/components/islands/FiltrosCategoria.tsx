@@ -86,6 +86,7 @@ export default function FiltrosCategoria({ itens, marcas, tamanhos, titulo }: Pr
     <div className="grid gap-6 lg:grid-cols-[264px_1fr]">
       <aside className="hidden lg:block"><div className="sticky top-4 bg-zinco p-4">{painel}</div></aside>
       <div>
+        <h2 className="sr-only">Produtos</h2>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-ink-muted" aria-live="polite">Mostrando <span className="font-semibold text-ink">{Math.min(limite, lista.length)}</span> de <span className="font-semibold text-ink">{lista.length}</span>{ativos > 0 && <> com filtro</>}</p>
           <div className="flex items-center gap-2">
@@ -117,7 +118,7 @@ export default function FiltrosCategoria({ itens, marcas, tamanhos, titulo }: Pr
       {aberto && (
         <div className="fixed inset-0 z-50 bg-ink/40 lg:hidden" onClick={() => setAberto(false)}>
           <div className="gaveta-entra absolute inset-y-0 left-0 w-[86%] max-w-sm overflow-y-auto bg-surface p-5" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Filtros">
-            <div className="mb-4 flex items-center justify-between"><h2 className="text-lg">Filtros</h2><button type="button" onClick={() => setAberto(false)} className="btn-secondary min-h-9 px-2" aria-label="Fechar filtros"><X className="h-4 w-4" /></button></div>
+            <div className="mb-4 flex items-center justify-between"><h2 className="!text-lg">Filtros</h2><button type="button" onClick={() => setAberto(false)} className="btn-secondary min-h-9 px-2" aria-label="Fechar filtros"><X className="h-4 w-4" /></button></div>
             {painel}
             <button type="button" onClick={() => setAberto(false)} className="btn-primary mt-6 w-full">Ver {lista.length} produtos</button>
           </div>

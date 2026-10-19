@@ -8,6 +8,7 @@ const wa = `https://api.whatsapp.com/send?phone=${EMPRESA.whatsappDigits}&text=$
 const atual = Astro.url.pathname;
 const curto: Record<string, string> = { "epi": "EPI", "sinalizacao-e-seguranca": "Sinalização", "ferramentas-e-ferragens": "Ferramentas", "fitas-colas-e-adesivos": "Fitas e colas", "veicular-e-frota": "Veicular e frota", "uso-geral": "Uso geral" };
 ---
+<header class="border-b border-line bg-surface">
 <a href="#conteudo" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-seg focus:px-3 focus:py-2">Pular para o conteúdo</a>
 <div class="hidden bg-zinco text-[13px] text-ink-muted sm:block">
   <div class="container-x flex min-h-9 items-center justify-between gap-4">
@@ -19,7 +20,6 @@ const curto: Record<string, string> = { "epi": "EPI", "sinalizacao-e-seguranca":
     <span class="flex items-center gap-4"><span>{EMPRESA.horario}</span><a href={`tel:${EMPRESA.telefoneE164}`} class="flex items-center gap-1.5 font-semibold text-ink"><Phone className="h-3.5 w-3.5" aria-hidden="true" />{EMPRESA.telefone}</a></span>
   </div>
 </div>
-<header class="border-b border-line bg-surface">
   <div class="container-x flex items-center gap-4 py-3 lg:gap-8">
     <a href="/" class="flex shrink-0 items-center" aria-label="Segmento Comercial, início">
       <img src="/img/logo-segmento-comercial.png" alt="Segmento Comercial" width="190" height="50" class="h-9 w-auto sm:h-11" />

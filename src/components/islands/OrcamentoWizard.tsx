@@ -105,7 +105,7 @@ export default function OrcamentoWizard({ config, entrada = "pagina" }: Props) {
       <div className="p-4 sm:p-6">
         {step === 0 && (
           <div>
-            <h3 ref={headingRef} tabIndex={-1} className="mb-1 text-xl outline-none">{config.passoLabel}</h3>
+            <h2 ref={headingRef} tabIndex={-1} className="mb-1 !text-xl outline-none">{config.passoLabel}</h2>
             <p className="mb-4 text-sm text-ink-muted">{config.subtitulo}</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {destaques.map((f) => (
@@ -122,7 +122,7 @@ export default function OrcamentoWizard({ config, entrada = "pagina" }: Props) {
         )}
         {step === 1 && flow && (
           <div>
-            <h3 ref={headingRef} tabIndex={-1} className="mb-4 text-xl outline-none">Sobre {flow.label.toLowerCase()}</h3>
+            <h2 ref={headingRef} tabIndex={-1} className="mb-4 !text-xl outline-none">Sobre {flow.label.toLowerCase()}</h2>
             <div className="flex flex-col gap-5">
               {visiveis(flow).map((q) => (
                 <div key={q.id}>
@@ -148,7 +148,7 @@ export default function OrcamentoWizard({ config, entrada = "pagina" }: Props) {
         )}
         {step === 2 && flow && (
           <div>
-            <h3 ref={headingRef} tabIndex={-1} className="mb-1 text-xl outline-none">Pra quem enviamos o {config.id === "fabricacao" ? "orçamento" : "a cotação"}?</h3>
+            <h2 ref={headingRef} tabIndex={-1} className="mb-1 !text-xl outline-none">Pra quem enviamos o {config.id === "fabricacao" ? "orçamento" : "a cotação"}?</h2>
             <p className="mb-4 text-sm text-ink-muted">O resumo abre no seu WhatsApp. Se preferir, vai por e-mail.</p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2"><label className="mb-2 block text-sm font-semibold" htmlFor="oz-nome">Seu nome</label><input id="oz-nome" type="text" autoComplete="name" value={nome} onChange={(e) => setNome(e.target.value)} className="input" /></div>
@@ -170,7 +170,7 @@ export default function OrcamentoWizard({ config, entrada = "pagina" }: Props) {
         )}
         {step === 3 && (
           <div>
-            <h3 ref={headingRef} tabIndex={-1} className="mb-2 text-xl outline-none">Pronto, o resumo está montado</h3>
+            <h2 ref={headingRef} tabIndex={-1} className="mb-2 !text-xl outline-none">Pronto, o resumo está montado</h2>
             <p className="mb-4 text-sm text-ink-muted">Se o WhatsApp não abriu, use um dos botões. A resposta vem em horário comercial.</p>
             <pre className="mb-4 max-h-56 overflow-auto whitespace-pre-wrap border border-line bg-zinco p-3 text-[13px] leading-5">{resumo.replace(/\*/g, "")}</pre>
             <div className="flex flex-wrap gap-2">

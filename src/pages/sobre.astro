@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { EMPRESA } from "../lib/site";
+import { PRODUTOS } from "../lib/catalogo";
+---
+<Layout title="Sobre a Segmento Comercial · EPI e placas em Casa Verde, São Paulo" description="Distribuidora de EPI, ferragens e sinalização com fábrica própria de placas em Casa Verde Alta, São Paulo.">
+  <section class="container-x max-w-3xl py-10">
+    <h1>Uma loja de EPI com fábrica de placas atrás do balcão.</h1>
+    <p class="mt-5 text-lg text-ink-muted">A Segmento Comercial atende há {EMPRESA.anos} anos quem compra segurança do trabalho em São Paulo: o técnico de segurança, o almoxarife, o engenheiro de obra, o gestor de frota, o síndico e o profissional que precisa de uma botina boa.</p>
+    <div class="grade mt-8 grid-cols-1 sm:grid-cols-3">
+      <div class="bg-surface p-4"><span class="block text-[20px] font-semibold">{PRODUTOS.length}</span><span class="text-sm text-ink-muted">itens no catálogo online</span></div>
+      <div class="bg-surface p-4"><span class="block text-[20px] font-semibold">Fábrica própria</span><span class="text-sm text-ink-muted">placas, ACM, letra caixa, CNC e laser</span></div>
+      <div class="bg-surface p-4"><span class="block text-[20px] font-semibold">{EMPRESA.googleNota}</span><span class="text-sm text-ink-muted">no Google, {EMPRESA.googleAvaliacoes} avaliações</span></div>
+    </div>
+    <h2 class="mt-10">O que fazemos</h2>
+    <ul class="mt-3 space-y-2 text-[15px] text-ink-muted">
+      <li><strong class="text-ink">EPI com CA:</strong> proteção da cabeça, olhos, auditiva, respiratória, luvas, calçados, vestuário, altura.</li>
+      <li><strong class="text-ink">Sinalização de segurança:</strong> placas NR-26, fotoluminescentes, fitas de demarcação, cones, coletes.</li>
+      <li><strong class="text-ink">Veicular e frota:</strong> kit caminhão NBR 9735, faixa refletiva, rótulos de risco e painel ONU.</li>
+      <li><strong class="text-ink">Fabricação:</strong> placas de trânsito, veicular, fachadas em ACM, letra caixa, luminosos, corte e gravação CNC e laser.</li>
+      <li><strong class="text-ink">Ferragens e ferramentas:</strong> o que a obra e a manutenção pedem no mesmo pedido.</li>
+    </ul>
+    <p class="mt-8 text-xs text-ink-muted">Texto provisório do protótipo. História, equipe e fotos reais entram com o material da empresa.</p>
+  </section>
+</Layout>

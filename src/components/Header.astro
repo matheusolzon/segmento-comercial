@@ -1,0 +1,56 @@
+---
+/* Topo em três andares: faixa de confiança (telefone, prazo, CNPJ), marca + busca + WhatsApp, menu de seções. */
+import { Phone, MessageCircle, Menu } from "lucide-react";
+import { EMPRESA, TRUST } from "../lib/site";
+import { TAXONOMIA } from "../lib/catalogo";
+import Busca from "./islands/Busca";
+const wa = `https://api.whatsapp.com/send?phone=${EMPRESA.whatsappDigits}&text=${encodeURIComponent("Olá! Vim pelo site da Segmento Comercial.")}`;
+const atual = Astro.url.pathname;
+const curto: Record<string, string> = { "epi": "EPI", "sinalizacao-e-seguranca": "Sinalização", "ferramentas-e-ferragens": "Ferramentas", "fitas-colas-e-adesivos": "Fitas e colas", "veicular-e-frota": "Veicular e frota", "uso-geral": "Uso geral" };
+---
+<a href="#conteudo" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-seg focus:px-3 focus:py-2">Pular para o conteúdo</a>
+<div class="hidden bg-zinco text-[13px] text-ink-muted sm:block">
+  <div class="container-x flex min-h-9 items-center justify-between gap-4">
+    <ul class="flex items-center gap-x-5 overflow-x-auto whitespace-nowrap py-1">
+      {TRUST.slice(0, 3).map((t) => (
+        <li class="flex items-center gap-1.5"><span class="h-1.5 w-1.5 border border-ink bg-seg" aria-hidden="true"></span>{t.texto}</li>
+      ))}
+    </ul>
+    <span class="flex items-center gap-4"><span>{EMPRESA.horario}</span><a href={`tel:${EMPRESA.telefoneE164}`} class="flex items-center gap-1.5 font-semibold text-ink"><Phone className="h-3.5 w-3.5" aria-hidden="true" />{EMPRESA.telefone}</a></span>
+  </div>
+</div>
+<header class="border-b border-line bg-surface">
+  <div class="container-x flex items-center gap-4 py-3 lg:gap-8">
+    <a href="/" class="flex shrink-0 items-center" aria-label="Segmento Comercial, início">
+      <img src="/img/logo-segmento-comercial.png" alt="Segmento Comercial" width="190" height="50" class="h-9 w-auto sm:h-11" />
+    </a>
+    <div class="hidden flex-1 md:block"><Busca client:idle /></div>
+    <div class="ml-auto flex items-center gap-2">
+      <a href={`tel:${EMPRESA.telefoneE164}`} class="btn-secondary min-h-11 px-3 sm:hidden" aria-label={`Ligar para ${EMPRESA.telefone}`}><Phone className="h-5 w-5" aria-hidden="true" /></a>
+      <a href={wa} target="_blank" rel="noopener" data-wa="header" class="btn-secondary min-h-11 px-3 sm:px-4" aria-label="Falar no WhatsApp"><MessageCircle className="h-5 w-5" aria-hidden="true" /><span class="hidden sm:inline">WhatsApp</span></a>
+      <button type="button" class="btn-secondary min-h-11 px-3 lg:hidden" aria-label="Abrir menu" aria-expanded="false" data-menu-abrir><Menu className="h-5 w-5" aria-hidden="true" /></button>
+    </div>
+  </div>
+  <div class="container-x pb-3 md:hidden"><Busca client:idle /></div>
+  <nav aria-label="Seções da loja" class="border-t border-line" data-menu>
+    <ul class="container-x hidden flex-wrap items-center gap-x-6 text-[14px] font-medium lg:flex">
+      {TAXONOMIA.n1.map((n1) => (
+        <li><a href={`/c/${n1.slug}/`} class:list={["block border-b-2 py-3 hover:text-vinho-deep", atual.startsWith(`/c/${n1.slug}`) ? "border-vinho text-vinho-deep" : "border-transparent"]}>{curto[n1.slug] ?? n1.nome}</a></li>
+      ))}
+      <li class="ml-auto"><a href="/fabricacao/" class:list={["flex items-center gap-2 border-b-2 py-3 font-semibold hover:text-vinho-deep", atual.startsWith("/fabricacao") ? "border-seg" : "border-transparent"]}><span class="h-2 w-2 border border-ink bg-seg" aria-hidden="true"></span>Fabricação sob medida</a></li>
+      <li><a href="/empresas/" class:list={["block border-b-2 py-3 font-semibold hover:text-vinho-deep", atual.startsWith("/empresas") ? "border-vinho" : "border-transparent"]}>Para empresas</a></li>
+    </ul>
+    <ul class="container-x hidden flex-col py-2 text-[0.95rem] font-medium lg:!hidden" data-menu-lista>
+      {TAXONOMIA.n1.map((n1) => (<li><a href={`/c/${n1.slug}/`} class="block py-2.5">{n1.nome}</a></li>))}
+      <li class="hairline mt-1 pt-1"><a href="/fabricacao/" class="block py-2.5 font-semibold">Fabricação sob medida</a></li>
+      <li><a href="/empresas/" class="block py-2.5 font-semibold">Para empresas</a></li>
+    </ul>
+  </nav>
+</header>
+<script is:inline>
+  document.querySelector("[data-menu-abrir]")?.addEventListener("click", (e) => {
+    const lista = document.querySelector("[data-menu-lista]");
+    const aberto = lista.classList.toggle("hidden") === false;
+    e.currentTarget.setAttribute("aria-expanded", String(aberto));
+  });
+</script>

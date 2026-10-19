@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { EMPRESA } from "../lib/site";
+import { MapPin, Phone, Mail, MessageCircle, Clock } from "lucide-react";
+const wa = `https://api.whatsapp.com/send?phone=${EMPRESA.whatsappDigits}&text=${encodeURIComponent("Olá! Vim pelo site da Segmento Comercial.")}`;
+const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${EMPRESA.endereco.rua}, ${EMPRESA.endereco.bairro}, ${EMPRESA.endereco.cidade}`)}`;
+---
+<Layout title="Contato e loja · Segmento Comercial, Casa Verde Alta, São Paulo" description="Loja e fábrica na Av. Eng. Caetano Álvares, 2025, Casa Verde Alta, São Paulo. Telefone (11) 3965-0409, WhatsApp e e-mail.">
+  <section class="container-x grid gap-8 py-10 lg:grid-cols-2">
+    <div>
+      <h1>Loja, balcão e fábrica em Casa Verde.</h1>
+      <dl class="mt-6 space-y-4 text-[15px]">
+        <div class="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-vinho" aria-hidden="true" /><div><dt class="rotulo">Endereço</dt><dd>{EMPRESA.endereco.rua}<br />{EMPRESA.endereco.bairro}, {EMPRESA.endereco.cidade} {EMPRESA.endereco.uf}, CEP {EMPRESA.endereco.cep}<br /><a href={maps} target="_blank" rel="noopener" class="font-medium text-vinho-deep underline">Abrir no mapa</a></dd></div></div>
+        <div class="flex gap-3"><Clock className="mt-0.5 h-5 w-5 shrink-0 text-vinho" aria-hidden="true" /><div><dt class="rotulo">Horário</dt><dd>{EMPRESA.horario}</dd></div></div>
+        <div class="flex gap-3"><Phone className="mt-0.5 h-5 w-5 shrink-0 text-vinho" aria-hidden="true" /><div><dt class="rotulo">Telefone</dt><dd><a href={`tel:${EMPRESA.telefoneE164}`} class="font-semibold hover:underline">{EMPRESA.telefone}</a></dd></div></div>
+        <div class="flex gap-3"><Mail className="mt-0.5 h-5 w-5 shrink-0 text-vinho" aria-hidden="true" /><div><dt class="rotulo">E-mail</dt><dd><a href={`mailto:${EMPRESA.email}`} class="hover:underline">{EMPRESA.email}</a></dd></div></div>
+      </dl>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <a href={wa} target="_blank" rel="noopener" data-wa="contato" class="btn-primary"><MessageCircle className="h-5 w-5" aria-hidden="true" />Falar no WhatsApp</a>
+        <a href="/empresas/" class="btn-secondary">Cotação para empresa</a>
+      </div>
+    </div>
+    <div class="border border-line bg-zinco p-5 text-sm text-ink-muted">
+      <p class="font-semibold text-ink">Retirada no balcão</p>
+      <p class="mt-1">Pediu pelo WhatsApp? Retire na loja no mesmo dia em horário comercial, ou receba na Grande SP.</p>
+      <p class="mt-4 font-semibold text-ink">Fábrica</p>
+      <p class="mt-1">Placas, ACM, letra caixa e corte CNC são feitos aqui. Traga a arte ou a medida e a gente orça na hora.</p>
+      <p class="mt-4 text-xs">Mapa estático e fotos da fachada entram na versão final.</p>
+    </div>
+  </section>
+</Layout>

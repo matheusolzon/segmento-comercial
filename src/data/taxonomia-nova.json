@@ -1,0 +1,231 @@
+{
+  "_nota": "Árvore nova proposta. n1 = seção do menu, n2 = folha. Contagens são preenchidas pelo normalizar.mjs.",
+  "n1": [
+    {
+      "slug": "epi",
+      "nome": "EPI",
+      "descricao": "Equipamentos de proteção individual com CA",
+      "n2": [
+        {
+          "slug": "protecao-da-cabeca",
+          "nome": "Proteção da cabeça",
+          "total": 11
+        },
+        {
+          "slug": "olhos-e-face",
+          "nome": "Olhos e face",
+          "total": 72
+        },
+        {
+          "slug": "protecao-auditiva",
+          "nome": "Proteção auditiva",
+          "total": 6
+        },
+        {
+          "slug": "protecao-respiratoria",
+          "nome": "Proteção respiratória",
+          "total": 8
+        },
+        {
+          "slug": "luvas",
+          "nome": "Luvas",
+          "total": 66
+        },
+        {
+          "slug": "calcados-de-seguranca",
+          "nome": "Calçados de segurança",
+          "total": 45
+        },
+        {
+          "slug": "vestuario-e-impermeaveis",
+          "nome": "Vestuário e impermeáveis",
+          "total": 28
+        },
+        {
+          "slug": "trabalho-em-altura",
+          "nome": "Trabalho em altura",
+          "total": 13
+        },
+        {
+          "slug": "bloqueio-e-etiquetagem",
+          "nome": "Bloqueio e etiquetagem",
+          "total": 1
+        },
+        {
+          "slug": "protetor-solar-e-repelente",
+          "nome": "Protetor solar e repelente",
+          "total": 4
+        },
+        {
+          "slug": "outros",
+          "nome": "Outros EPIs",
+          "total": 0
+        }
+      ],
+      "total": 254
+    },
+    {
+      "slug": "sinalizacao-e-seguranca",
+      "nome": "Sinalização e segurança",
+      "descricao": "Placas, fitas, cones e coletes",
+      "n2": [
+        {
+          "slug": "placas",
+          "nome": "Placas de sinalização",
+          "total": 28
+        },
+        {
+          "slug": "combate-a-incendio",
+          "nome": "Combate a incêndio",
+          "total": 5
+        },
+        {
+          "slug": "adesivos-e-rotulos",
+          "nome": "Adesivos e rótulos ONU",
+          "total": 8
+        },
+        {
+          "slug": "fitas-de-sinalizacao",
+          "nome": "Fitas de sinalização e demarcação",
+          "total": 23
+        },
+        {
+          "slug": "cones-e-bandeirolas",
+          "nome": "Cones, bandeirolas e correntes",
+          "total": 12
+        },
+        {
+          "slug": "coletes-refletivos",
+          "nome": "Coletes refletivos",
+          "total": 8
+        }
+      ],
+      "total": 84
+    },
+    {
+      "slug": "ferramentas-e-ferragens",
+      "nome": "Ferramentas e ferragens",
+      "descricao": "Manuais, elétricas, discos, fixação e jardinagem",
+      "n2": [
+        {
+          "slug": "ferramentas-manuais",
+          "nome": "Ferramentas manuais",
+          "total": 129
+        },
+        {
+          "slug": "ferramentas-eletricas",
+          "nome": "Ferramentas elétricas",
+          "total": 2
+        },
+        {
+          "slug": "discos-brocas-e-acessorios",
+          "nome": "Discos, brocas e acessórios",
+          "total": 63
+        },
+        {
+          "slug": "fixacao-e-ferragens",
+          "nome": "Fixação e ferragens",
+          "total": 67
+        },
+        {
+          "slug": "cordas-e-amarracao",
+          "nome": "Cordas e amarração",
+          "total": 30
+        },
+        {
+          "slug": "jardinagem",
+          "nome": "Jardinagem",
+          "total": 31
+        },
+        {
+          "slug": "pilhas-e-eletrica",
+          "nome": "Pilhas e elétrica",
+          "total": 30
+        },
+        {
+          "slug": "quimicos-e-lubrificantes",
+          "nome": "Químicos e lubrificantes",
+          "total": 27
+        },
+        {
+          "slug": "outros",
+          "nome": "Outros",
+          "total": 0
+        }
+      ],
+      "total": 379
+    },
+    {
+      "slug": "fitas-colas-e-adesivos",
+      "nome": "Fitas, colas e adesivos",
+      "descricao": "Colas, selantes e fitas técnicas",
+      "n2": [
+        {
+          "slug": "colas-e-selantes",
+          "nome": "Colas e selantes",
+          "total": 43
+        },
+        {
+          "slug": "fita-dupla-face",
+          "nome": "Fita dupla face",
+          "total": 17
+        },
+        {
+          "slug": "fitas-adesivas",
+          "nome": "Fitas adesivas",
+          "total": 24
+        }
+      ],
+      "total": 84
+    },
+    {
+      "slug": "veicular-e-frota",
+      "nome": "Veicular e frota",
+      "descricao": "Kit caminhão NBR 9735, faixa refletiva e rótulos de risco",
+      "n2": [
+        {
+          "slug": "kit-caminhao-e-sinalizacao-veicular",
+          "nome": "Kit caminhão e sinalização veicular",
+          "total": 10
+        }
+      ],
+      "total": 10
+    },
+    {
+      "slug": "uso-geral",
+      "nome": "Uso geral e limpeza",
+      "descricao": "Sacos, absorventes, crachás e papelaria",
+      "n2": [
+        {
+          "slug": "limpeza-sacos-e-absorventes",
+          "nome": "Limpeza, sacos e absorventes",
+          "total": 12
+        },
+        {
+          "slug": "escritorio",
+          "nome": "Crachás e papelaria",
+          "total": 5
+        },
+        {
+          "slug": "outros",
+          "nome": "Outros",
+          "total": 0
+        }
+      ],
+      "total": 17
+    }
+  ],
+  "menu_extra": [
+    {
+      "slug": "fabricacao",
+      "nome": "Fabricação sob medida",
+      "rota": "/fabricacao",
+      "nota": "Não é categoria de produto: placas de trânsito, veicular, empresas, ACM, letra caixa, CNC e laser"
+    },
+    {
+      "slug": "empresas",
+      "nome": "Para empresas",
+      "rota": "/empresas"
+    }
+  ]
+}

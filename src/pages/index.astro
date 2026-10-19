@@ -1,0 +1,98 @@
+---
+/* Home: balcão de três entradas (busca, fabricação, empresas) + fatos + categorias + prateleira com CA. */
+import Layout from "../layouts/Layout.astro";
+import Busca from "../components/islands/Busca";
+import ProdutoCardR from "../components/islands/ProdutoCardR";
+import { TAXONOMIA, PRODUTOS, porCaminho, ordenar } from "../lib/catalogo";
+import { paraCard } from "../lib/para-card";
+import { EMPRESA } from "../lib/site";
+import { ORCAMENTO_FABRICACAO, ORCAMENTO_EMPRESAS } from "../lib/orcamento-flows";
+import { ArrowRight, MapPin, Phone, Star } from "lucide-react";
+const comCa = ordenar(PRODUTOS.filter((p) => p.ca && p.imagem)).slice(0, 8).map(paraCard);
+const buscas = ["Botina", "Luva", "Óculos", "Capacete", "Fita zebrada", "Kit caminhão"];
+const fotoTile = (n1: string) => (porCaminho.get(`${n1}/${{ "epi": "calcados-de-seguranca", "sinalizacao-e-seguranca": "placas", "ferramentas-e-ferragens": "ferramentas-manuais", "fitas-colas-e-adesivos": "colas-e-selantes", "veicular-e-frota": "kit-caminhao-e-sinalizacao-veicular", "uso-geral": "limpeza-sacos-e-absorventes" }[n1]}`) || []).find((p) => p.imagem && p.em_estoque)?.imagem;
+const fatos = [[`${EMPRESA.anos} anos`, "em Casa Verde Alta, SP"], [`${EMPRESA.googleNota} no Google`, `${EMPRESA.googleAvaliacoes} avaliações`], [`${PRODUTOS.length} itens`, "no catálogo online"], ["Fábrica própria", "CNC e laser"]];
+---
+<Layout title="Segmento Comercial · EPI com CA, ferragens, sinalização e placas sob medida em São Paulo" description="Distribuidora de EPI com número de CA, ferramentas, sinalização de segurança e fabricação própria de placas de trânsito, veicular e fachadas em ACM. Casa Verde, São Paulo. Pedido pelo WhatsApp e cotação para CNPJ.">
+  <section class="container-x grid gap-8 py-8 lg:grid-cols-12 lg:items-center lg:py-10">
+    <div class="lg:col-span-5">
+      <h1 class="uppercase text-vinho !text-[40px] !leading-[38px] tracking-[-0.01em] sm:!text-[56px] sm:!leading-[54px] xl:!text-[64px] xl:!leading-[60px]">EPI, ferragem e placa no mesmo pedido.</h1>
+      <p class="mt-4 max-w-md text-lg text-ink-muted">Distribuidora com fábrica própria de placas, em Casa Verde. Pedido pelo WhatsApp, cotação formal para empresas.</p>
+      <div class="mt-6"><Busca client:idle grande /></div>
+      <ul class="mt-4 flex flex-wrap divide-x divide-line text-sm font-medium">
+        {buscas.map((b) => <li class="px-3 first:pl-0"><a href={`/busca/?q=${encodeURIComponent(b)}`} class="hover:text-vinho-deep hover:underline">{b}</a></li>)}
+      </ul>
+    </div>
+    <div class="relative lg:col-span-7">
+      <img src="/img/hero-galpao-960.webp" srcset="/img/hero-galpao-960.webp 960w, /img/hero-galpao-1600.webp 1600w" sizes="(min-width:1024px) 58vw, 100vw" alt="" width="1536" height="1024" class="aspect-[16/10] w-full object-cover lg:aspect-[4/3]" fetchpriority="high" data-trocar="foto real do estoque deles" />
+      <div class="etiqueta etiqueta-lg absolute bottom-3 left-3 bg-surface">
+        <span><span class="val">{PRODUTOS.length} itens</span></span><span><span class="val">{EMPRESA.anos} anos</span></span><span><span class="val">Casa Verde Alta, SP</span></span>
+      </div>
+      <span class="absolute right-3 top-3 bg-surface px-2 py-1 text-[10px] uppercase tracking-[0.06em] text-ink-muted">imagem ilustrativa</span>
+    </div>
+  </section>
+
+  <section class="container-x grid gap-4 md:grid-cols-2" aria-label="Fabricação e empresas">
+    <a href="/fabricacao/" class="group grid border border-ink sm:grid-cols-[2fr_3fr]">
+      <img src="/img/fabricacao-cnc-960.webp" alt="" width="960" height="640" loading="lazy" class="aspect-video h-full w-full object-cover sm:aspect-auto" />
+      <div class="flex flex-col p-5">
+        <span class="etiqueta self-start"><span class="fab"><span class="rot">Fábrica própria</span></span><span><span class="val">CNC e laser</span></span></span>
+        <h2 class="mt-3 !text-[24px] !leading-7 group-hover:underline">Placas sob medida</h2>
+        <p class="mt-2 text-sm text-ink-muted">Trânsito, veicular e frota, segurança NR-26, fachada em ACM, letra caixa, luminoso, corte CNC e laser.</p>
+        <span class="btn-primary mt-4 self-start">Orçar placa sob medida <ArrowRight className="h-4 w-4" aria-hidden="true" /></span>
+      </div>
+    </a>
+    <div class="flex flex-col border border-ink p-5">
+      <span class="etiqueta self-start"><span><span class="rot">Para empresas</span></span><span><span class="val">Faturamento CNPJ</span></span></span>
+      <h2 class="mt-3 !text-[24px] !leading-7">Cotação por segmento</h2>
+      <p class="mt-2 text-sm text-ink-muted">Kit de EPI, sinalização e material de frota montados pelo tipo de operação. Proposta formal, nota fiscal, reposição.</p>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {ORCAMENTO_EMPRESAS.flows.filter((f) => f.destaque).map((f) => <li><a href={`/empresas/?segmento=${f.id}`} class="chip">{f.label}</a></li>)}
+      </ul>
+      <a href="/empresas/" class="btn-secondary mt-auto self-start pt-0">Cotação para empresa <span class="text-xs font-normal text-ink-muted">CNPJ</span></a>
+    </div>
+  </section>
+
+  <section class="container-x mt-10" aria-label="Fatos">
+    <ul class="grade grid-cols-2 md:grid-cols-4">
+      {fatos.map(([a, b]) => <li class="bg-surface p-4"><span class="block text-[20px] font-semibold leading-6">{a}</span><span class="block text-sm text-ink-muted">{b}</span></li>)}
+    </ul>
+  </section>
+
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>Catálogo</h2><span class="text-sm text-ink-muted">{PRODUTOS.length} itens em 6 seções</span></div>
+    <ul class="grade grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+      {TAXONOMIA.n1.map((n1) => { const img = fotoTile(n1.slug); return (
+        <li><a href={`/c/${n1.slug}/`} class="group relative flex aspect-square flex-col bg-zinco p-3 hover:bg-zinco-2">
+          <span class="flex items-start justify-between gap-2"><span class="t-display text-[18px] font-semibold uppercase leading-5 tracking-[-0.01em] xl:text-[17px]">{n1.nome}</span><span class="shrink-0 text-[13px] text-ink-muted">{n1.total}</span></span>
+          {img && <img src={img.w320} alt="" width="320" height="320" loading="lazy" class="mt-auto h-[64%] w-full object-contain mix-blend-multiply" />}
+          <span class="absolute bottom-3 left-3 h-0.5 w-8 bg-vinho opacity-0 group-hover:opacity-100"></span>
+        </a></li>); })}
+    </ul>
+  </section>
+
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>EPI com CA informado</h2><a href="/c/epi/?ca=1" class="text-sm font-medium text-vinho-deep hover:underline">Ver todos</a></div>
+    <div class="grade grid-cols-2 sm:grid-cols-4">{comCa.map((p, i) => <ProdutoCardR p={p} eager={i < 4} />)}</div>
+    <p class="mt-3 text-xs text-ink-muted">O número do CA vai aparecer em todos os EPIs na migração do catálogo. Hoje {PRODUTOS.filter((p) => p.ca).length} itens já têm.</p>
+  </section>
+
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>O que a fábrica faz</h2><a href="/fabricacao/" class="text-sm font-medium text-vinho-deep hover:underline">Orçar</a></div>
+    <ul class="grade grid-cols-2 md:grid-cols-4">
+      {ORCAMENTO_FABRICACAO.flows.map((f) => <li><a href={`/fabricacao/?tipo=${f.id}`} class="flex h-full flex-col bg-surface p-4 hover:bg-zinco"><span class="font-semibold">{f.label}</span><span class="mt-1 text-xs text-ink-muted">{f.resumo}</span></a></li>)}
+    </ul>
+  </section>
+
+  <section class="container-x mt-12 grid gap-6 md:grid-cols-2">
+    <div class="border border-line p-5">
+      <div class="flex items-center gap-2"><Star className="h-5 w-5 fill-seg text-ink" aria-hidden="true" /><span class="text-[20px] font-semibold">{EMPRESA.googleNota}</span><span class="text-sm text-ink-muted">no Google, {EMPRESA.googleAvaliacoes} avaliações</span></div>
+      <p class="mt-2 text-sm text-ink-muted">Avaliações reais entram aqui na versão final, com data e nome.</p>
+    </div>
+    <div class="border border-line p-5">
+      <p class="flex items-start gap-2 text-sm"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-vinho" aria-hidden="true" /><span>{EMPRESA.endereco.rua}, {EMPRESA.endereco.bairro}, {EMPRESA.endereco.cidade}. {EMPRESA.horario}.</span></p>
+      <p class="mt-2 flex items-center gap-2 text-sm"><Phone className="h-4 w-4 shrink-0 text-vinho" aria-hidden="true" /><a href={`tel:${EMPRESA.telefoneE164}`} class="font-semibold hover:underline">{EMPRESA.telefone}</a><span class="text-ink-muted">· retirada no balcão</span></p>
+      <a href="/contato/" class="mt-3 inline-block text-sm font-medium text-vinho-deep hover:underline">Como chegar e horários</a>
+    </div>
+  </section>
+</Layout>

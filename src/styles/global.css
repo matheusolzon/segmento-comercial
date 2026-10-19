@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+ * SEGMENTO COMERCIAL · loja (protótipo). Conceito "ficha técnica de almoxarifado".
+ * Fonte da verdade: ../../identidade/design-guide.md (paleta com contraste medido, escala, componentes).
+ * Papel branco contínuo, zinco só dentro de componente, vinho do logo como ação, amarelo reservado a CA/prazo.
+ */
+@font-face { font-family: "Clash Display"; src: url("/fonts/clash-display-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Switzer"; src: url("/fonts/switzer-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Switzer"; src: url("/fonts/switzer-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Switzer"; src: url("/fonts/switzer-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+@theme {
+  --font-display: "Clash Display", "Switzer", system-ui, sans-serif;
+  --font-sans: "Switzer", system-ui, -apple-system, sans-serif;
+
+  --color-bg: #ffffff;        /* papel */
+  --color-zinco: #f1f1ee;     /* superfície 2, só dentro de componente */
+  --color-zinco-2: #e4e4e0;   /* hover de tile, chip pressionado, placeholder de foto */
+  --color-surface: #ffffff;
+
+  --color-ink: #1e1d1b;       /* carvão */
+  --color-ink-muted: #555555; /* grafite, o cinza do wordmark */
+  --color-faint: #6e6c68;     /* terciário, 5:1 */
+
+  --color-vinho: #682828;
+  --color-vinho-deep: #4e1c1c;
+  --color-vinho-soft: #f6eceb;
+
+  --color-seg: #f5c400;       /* amarelo-segurança: só preenchimento com texto carvão + borda carvão */
+  --color-on-seg: #1e1d1b;
+
+  --color-ok: #1d6b3a;
+  --color-erro: #b42318;
+
+  --color-line: #d7d6d1;         /* hairline */
+  --color-line-strong: #8a8883;  /* borda de campo e chip */
+}
+
+@utility btn { @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 px-5 text-base font-semibold transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50; }
+@utility rotulo { @apply text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-muted; }
+
+@layer base {
+  html { font-family: var(--font-sans); color: var(--color-ink); background: var(--color-bg); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+  body { min-width: 320px; overflow-x: hidden; }
+  h1, h2, .t-display { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
+  h1 { font-size: 28px; line-height: 32px; } h2 { font-size: 22px; line-height: 26px; }
+  @media (min-width: 640px) { h1 { font-size: 40px; line-height: 44px; } h2 { font-size: 28px; line-height: 32px; } }
+  h3 { font-weight: 600; font-size: 18px; line-height: 24px; }
+  :focus-visible { outline: 2px solid var(--color-vinho); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8; }
+  .btn-primary { @apply btn bg-vinho text-white hover:bg-vinho-deep; }
+  .btn-secondary { @apply btn border border-ink bg-surface text-ink hover:bg-zinco; }
+  .btn-outline { @apply btn min-h-10 border border-vinho bg-surface px-3 text-sm text-vinho-deep hover:bg-vinho-soft; }
+  .hairline { border-top: 1px solid var(--color-line); }
+  .input { @apply w-full border border-line-strong bg-surface px-3 py-2.5 text-base text-ink outline-none placeholder:text-faint focus:border-vinho; }
+  .chip { @apply inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center border border-line-strong bg-surface px-3 text-[15px] font-medium text-ink transition-colors hover:border-ink; }
+  .chip-on { @apply border-2 border-vinho bg-vinho-soft font-semibold text-vinho-deep; }
+  .chip-off { @apply cursor-not-allowed text-ink-muted; background: linear-gradient(to top right, transparent calc(50% - 0.5px), var(--color-ink-muted) 50%, transparent calc(50% + 0.5px)); }
+
+  /* etiqueta de gaveta: a assinatura. Único contorno escuro da página. */
+  .etiqueta { @apply inline-flex max-w-full items-stretch border border-ink text-[12px] leading-none; }
+  .etiqueta > * { @apply flex items-center gap-1.5 whitespace-nowrap px-2 py-1 border-l border-ink first:border-l-0; }
+  .etiqueta .rot { @apply rotulo text-[10px]; }
+  .etiqueta .val { @apply font-medium; }
+  .etiqueta .ca { @apply bg-seg text-on-seg; }
+  .etiqueta .ca .rot { @apply bg-ink px-1 py-0.5 text-seg; }
+  .etiqueta .fab { @apply bg-vinho text-white; }
+  .etiqueta .fab .rot { @apply text-white/80; }
+  .etiqueta-lg { @apply text-[14px]; } .etiqueta-lg > * { @apply px-3 py-1.5; }
+
+  /* selo CA: duas células, CA amarelo-sobre-carvão + número carvão-sobre-amarelo */
+  .selo-ca { @apply inline-flex items-stretch border border-ink text-[12px] font-medium leading-none; }
+  .selo-ca > span:first-child { @apply bg-ink px-1.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-seg; }
+  .selo-ca > span:last-child { @apply bg-seg px-2 py-1 text-on-seg; }
+  .selo-ca-lg { @apply text-[14px]; } .selo-ca-lg > span { @apply py-1.5; }
+
+  /* badge de estoque: quadrado + texto, sem pílula */
+  .estoque { @apply inline-flex items-center gap-1.5 text-[12px] font-medium; }
+  .estoque::before { content: ""; @apply h-2 w-2 shrink-0; }
+  .estoque-ok { @apply text-ok; } .estoque-ok::before { @apply bg-ok; }
+  .estoque-nao { @apply text-erro; } .estoque-nao::before { @apply bg-erro; }
+  .estoque-enc { @apply text-ink; } .estoque-enc::before { @apply border border-ink bg-seg; }
+
+  /* grade colapsada: cards dividem a hairline */
+  .grade { @apply grid border-l border-t border-line; }
+  .grade > * { @apply border-b border-r border-line; }
+  .card { @apply flex h-full flex-col bg-surface transition-[box-shadow] hover:shadow-[inset_0_0_0_1px_var(--color-ink)]; }
+
+  .secao-cabeca { @apply mb-4 flex items-end justify-between gap-4 border-b border-line pb-3; }
+  .prose-tec p { @apply mb-3; } .prose-tec ul { @apply mb-3 list-disc pl-5; }
+}
+
+/* movimentos (3), só CSS */
+@keyframes pulso-zinco { from { background: var(--color-zinco); } to { background: transparent; } }
+.mudou { animation: pulso-zinco 240ms ease-out; }
+@keyframes pulso-seg { from { background: var(--color-seg); } to { background: transparent; } }
+.contou { animation: pulso-seg 600ms ease-out; }
+@keyframes sobe { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.barra-entra { animation: sobe 200ms ease-out; }
+@keyframes gaveta { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+.gaveta-entra { animation: gaveta 240ms cubic-bezier(0.2, 0, 0, 1); }

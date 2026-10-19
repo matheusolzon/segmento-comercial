@@ -1,0 +1,12 @@
+---
+interface Props { itens: { nome: string; href?: string }[] }
+const { itens } = Astro.props;
+const jsonLd = { "@type": "BreadcrumbList", itemListElement: itens.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.nome, ...(it.href ? { item: new URL(it.href, Astro.site).toString() } : {}) })) };
+---
+<nav aria-label="Você está em" class="text-xs text-faint">
+  <ol class="flex flex-wrap items-center gap-x-1.5">
+    <li><a href="/" class="hover:text-ink hover:underline">Início</a></li>
+    {itens.map((it, i) => (<li class="flex items-center gap-x-1.5"><span aria-hidden="true">›</span>{it.href && i < itens.length - 1 ? <a href={it.href} class="hover:text-ink hover:underline">{it.nome}</a> : <span class="text-ink-muted" aria-current="page">{it.nome}</span>}</li>))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", ...jsonLd })} is:inline />

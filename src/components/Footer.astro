@@ -1,0 +1,49 @@
+---
+import { EMPRESA } from "../lib/site";
+import { TAXONOMIA } from "../lib/catalogo";
+---
+<footer class="mt-16 border-t border-line bg-zinco pb-28 pt-12 text-sm md:pb-12">
+  <div class="container-x grid gap-10 md:grid-cols-4">
+    <div class="md:col-span-1">
+      <img src="/img/logo-segmento-comercial.png" alt="Segmento Comercial" width="170" height="45" class="mb-4 h-10 w-auto" />
+      <p class="text-ink-muted">EPI, ferragens, sinalização e fabricação de placas. {EMPRESA.anos} anos em Casa Verde, São Paulo.</p>
+      <p class="mt-3 text-xs text-faint">CNPJ {EMPRESA.cnpj}</p>
+    </div>
+    <div>
+      <h2 class="kicker mb-3">Catálogo</h2>
+      <ul class="space-y-2">{TAXONOMIA.n1.map((n) => (<li><a href={`/c/${n.slug}/`} class="hover:text-vinho-deep hover:underline">{n.nome}</a></li>))}</ul>
+    </div>
+    <div>
+      <h2 class="kicker mb-3">Serviços</h2>
+      <ul class="space-y-2">
+        <li><a href="/fabricacao/" class="hover:text-vinho-deep hover:underline">Fabricação sob medida</a></li>
+        <li><a href="/empresas/" class="hover:text-vinho-deep hover:underline">Para empresas</a></li>
+        <li><a href="/sobre/" class="hover:text-vinho-deep hover:underline">Sobre a Segmento</a></li>
+        <li><a href="/contato/" class="hover:text-vinho-deep hover:underline">Contato e loja</a></li>
+      </ul>
+      <h2 class="kicker mb-3 mt-6">Políticas</h2>
+      <ul class="space-y-2">
+        <li><a href="/politicas/entrega/" class="hover:underline">Entrega e prazos</a></li>
+        <li><a href="/politicas/trocas/" class="hover:underline">Trocas e devoluções</a></li>
+        <li><a href="/politicas/pagamento/" class="hover:underline">Pagamento</a></li>
+        <li><a href="/politicas/privacidade/" class="hover:underline">Privacidade</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="kicker mb-3">Atendimento</h2>
+      <address class="space-y-2 not-italic text-ink-muted">
+        <p>{EMPRESA.endereco.rua}<br />{EMPRESA.endereco.bairro}, {EMPRESA.endereco.cidade} {EMPRESA.endereco.uf}<br />CEP {EMPRESA.endereco.cep}</p>
+        <p><a href={`tel:${EMPRESA.telefoneE164}`} class="font-semibold text-ink hover:underline">{EMPRESA.telefone}</a></p>
+        <p><a href={`mailto:${EMPRESA.email}`} class="hover:underline">{EMPRESA.email}</a></p>
+        <p>{EMPRESA.horario}</p>
+      </address>
+      <ul class="mt-4 flex gap-3">
+        <li><a href={EMPRESA.instagram} target="_blank" rel="noopener" class="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] border border-line-strong hover:border-vinho" aria-label="Instagram da Segmento Comercial"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a></li>
+        <li><a href={EMPRESA.youtube} target="_blank" rel="noopener" class="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] border border-line-strong hover:border-vinho" aria-label="YouTube da Segmento Comercial"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M3 8.5a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container-x hairline mt-10 pt-4 text-xs text-faint">
+    <p>Protótipo de pré-venda. Imagens de produto do catálogo atual; nomes e categorias são proposta de reorganização.</p>
+  </div>
+</footer>

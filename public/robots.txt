@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Demo de pré-venda em domínio da OX Mídia. Liberar (Allow: /) só depois do fechamento e no domínio do cliente.

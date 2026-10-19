@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import OrcamentoWizard from "../components/islands/OrcamentoWizard";
+import ProdutoCardR from "../components/islands/ProdutoCardR";
+import { ORCAMENTO_EMPRESAS } from "../lib/orcamento-flows";
+import { porCaminho, ordenar } from "../lib/catalogo";
+import { paraCard } from "../lib/para-card";
+const kits: Record<string, { nr: string; folhas: string[] }> = {
+  obra: { nr: "NR-6, NR-18, NR-35", folhas: ["epi/protecao-da-cabeca", "epi/olhos-e-face", "epi/luvas", "epi/calcados-de-seguranca", "epi/trabalho-em-altura", "sinalizacao-e-seguranca/fitas-de-sinalizacao"] },
+  galpao: { nr: "NR-11, NR-26", folhas: ["epi/calcados-de-seguranca", "epi/luvas", "sinalizacao-e-seguranca/coletes-refletivos", "sinalizacao-e-seguranca/fitas-de-sinalizacao", "sinalizacao-e-seguranca/placas", "ferramentas-e-ferragens/cordas-e-amarracao"] },
+  frota: { nr: "NBR 9735, CONTRAN", folhas: ["veicular-e-frota/kit-caminhao-e-sinalizacao-veicular", "sinalizacao-e-seguranca/adesivos-e-rotulos", "sinalizacao-e-seguranca/cones-e-bandeirolas", "sinalizacao-e-seguranca/coletes-refletivos"] },
+  industria: { nr: "NR-6, NR-10, NR-26", folhas: ["epi/olhos-e-face", "epi/protecao-auditiva", "epi/protecao-respiratoria", "epi/luvas", "epi/bloqueio-e-etiquetagem", "sinalizacao-e-seguranca/placas"] },
+  condominio: { nr: "NBR 13434, NBR 16820", folhas: ["sinalizacao-e-seguranca/combate-a-incendio", "sinalizacao-e-seguranca/placas", "sinalizacao-e-seguranca/fitas-de-sinalizacao", "sinalizacao-e-seguranca/cones-e-bandeirolas"] },
+};
+const itensDe = (folhas: string[]) => folhas.map((f) => ordenar(porCaminho.get(f) || []).find((p) => p.imagem)).filter(Boolean).slice(0, 4).map((p) => paraCard(p!));
+const passos = [["Cotação", "Pelo site, WhatsApp ou e-mail, com CNPJ"], ["Proposta formal", "Itens, CA, prazo e condição"], ["Pagamento ou faturamento", "Pix, cartão, boleto ou faturado"], ["Entrega ou retirada", "Grande SP ou balcão em Casa Verde"], ["Reposição", "Lista salva, recompra em uma mensagem"]];
+const faq = [["Vocês faturam para CNPJ?", "Sim, com nota fiscal. Prazo e limite dependem do cadastro."], ["Tem pedido mínimo?", "Não para EPI e sinalização de prateleira. Placa sob medida depende do tipo."], ["Atendem licitação e órgão público?", "Sim, com especificação técnica, CA e nota fiscal."], ["E se o item não estiver no site?", "A loja física tem mais do que o site. Mande a lista que a gente cota."]];
+---
+<Layout title="Para empresas · cotação de EPI, sinalização e frota com faturamento para CNPJ · Segmento Comercial" description="Cotação formal para empresas em São Paulo: kits de EPI por segmento (obra, galpão, frota, indústria, condomínio), sinalização, placas sob medida. Faturamento para CNPJ, nota fiscal, reposição.">
+  <section class="container-x grid gap-8 py-8 lg:grid-cols-2 lg:gap-12">
+    <div>
+      <h1 class="uppercase !text-[36px] !leading-[36px] sm:!text-[52px] sm:!leading-[50px]">Compra de empresa, com proposta formal.</h1>
+      <ul class="mt-6 space-y-3 text-[15px]">
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>Faturamento para CNPJ e nota fiscal em todo pedido.</li>
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>Kit de EPI, sinalização e material de frota pelo tipo de operação.</li>
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>Proposta por e-mail, reposição em uma mensagem.</li>
+      </ul>
+      <img src="/img/empresas-kit-960.webp" srcset="/img/empresas-kit-960.webp 960w, /img/empresas-kit-1600.webp 1600w" sizes="(min-width:1024px) 50vw, 100vw" alt="" width="1536" height="1024" loading="lazy" class="mt-6 aspect-[3/2] w-full object-cover" data-trocar="foto real de um pedido montado" />
+    </div>
+    <OrcamentoWizard client:load config={ORCAMENTO_EMPRESAS} entrada="hero" />
+  </section>
+  {ORCAMENTO_EMPRESAS.flows.filter((f) => kits[f.id]).map((f) => { const k = kits[f.id]; const itens = itensDe(k.folhas); return (
+    <section class="container-x mt-10" id={f.id}>
+      <div class="secao-cabeca"><div><h2>{f.label}</h2><p class="mt-1 text-sm text-ink-muted">{f.resumo}. Referência: {k.nr}.</p></div><button type="button" data-flow={f.id} class="btn-outline shrink-0">Montar kit</button></div>
+      <div class="grade grid-cols-2 lg:grid-cols-4">{itens.map((p) => <ProdutoCardR p={p} />)}</div>
+    </section>); })}
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>Como uma empresa compra</h2></div>
+    <ol class="grade grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">{passos.map(([t, d], i) => <li class="bg-surface p-4"><span class="rotulo">{i + 1}</span><span class="mt-1 block font-semibold">{t}</span><span class="mt-1 block text-sm text-ink-muted">{d}</span></li>)}</ol>
+    <p class="mt-2 text-xs text-ink-muted">Prazo de faturamento e pedido mínimo a confirmar.</p>
+  </section>
+  <section class="container-x mt-12 max-w-3xl">
+    <div class="secao-cabeca"><h2>Perguntas</h2></div>
+    <dl class="divide-y divide-line">{faq.map(([q, a]) => <div class="py-3"><dt class="font-semibold">{q}</dt><dd class="mt-1 text-sm text-ink-muted">{a}</dd></div>)}</dl>
+  </section>
+  <script is:inline>
+    document.querySelectorAll("[data-flow]").forEach((b) => b.addEventListener("click", () => { window.dispatchEvent(new CustomEvent("orcamento:select", { detail: { flowId: b.dataset.flow } })); document.querySelector("[data-orcamento]")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  </script>
+</Layout>

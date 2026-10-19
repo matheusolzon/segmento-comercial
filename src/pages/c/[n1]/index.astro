@@ -1,0 +1,28 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import FiltrosCategoria from "../../../components/islands/FiltrosCategoria";
+import { TAXONOMIA, porN1, porCaminho, ordenar, marcasDe, tamanhosDe } from "../../../lib/catalogo";
+import { paraCard } from "../../../lib/para-card";
+export const getStaticPaths = () => TAXONOMIA.n1.map((n1) => ({ params: { n1: n1.slug }, props: { n1 } }));
+const { n1 } = Astro.props;
+const lista = ordenar(porN1.get(n1.slug) || []);
+const folhas = n1.n2.filter((x) => x.total > 0);
+---
+<Layout title={`${n1.nome} · ${lista.length} produtos · Segmento Comercial`} description={`${n1.descricao}. ${lista.length} produtos com preço, estoque e pedido pelo WhatsApp. Segmento Comercial, Casa Verde, São Paulo.`}>
+  <div class="container-x py-6">
+    <Breadcrumb itens={[{ nome: n1.nome }]} />
+    <h1 class="mt-3 text-3xl sm:text-4xl">{n1.nome}</h1>
+    <p class="mt-2 max-w-prose text-ink-muted">{n1.descricao}.</p>
+    <ul class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+      {folhas.map((f) => { const ex = (porCaminho.get(`${n1.slug}/${f.slug}`) || []).find((p) => p.imagem); return (
+        <li><a href={`/c/${n1.slug}/${f.slug}/`} class="flex items-center gap-3 border border-line bg-zinco p-2.5 hover:bg-zinco-2">
+          {ex?.imagem ? <img src={ex.imagem.w320} alt="" width="56" height="56" loading="lazy" class="h-14 w-14 shrink-0 object-contain mix-blend-multiply" /> : <span class="h-14 w-14 shrink-0 bg-zinco"></span>}
+          <span class="min-w-0"><span class="block text-sm font-semibold leading-tight">{f.nome}</span><span class="t-num text-xs text-faint">{f.total} {f.total === 1 ? "item" : "itens"}</span></span>
+        </a></li>); })}
+    </ul>
+    <div class="hairline mt-8 pt-8">
+      <FiltrosCategoria client:load itens={lista.map(paraCard)} marcas={marcasDe(lista)} tamanhos={tamanhosDe(lista)} titulo={n1.nome} />
+    </div>
+  </div>
+</Layout>

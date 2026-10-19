@@ -1,0 +1,31 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import FiltrosCategoria from "../../../components/islands/FiltrosCategoria";
+import { TAXONOMIA, porCaminho, ordenar, marcasDe, tamanhosDe } from "../../../lib/catalogo";
+import { paraCard } from "../../../lib/para-card";
+export const getStaticPaths = () => TAXONOMIA.n1.flatMap((n1) => n1.n2.filter((n2) => n2.total > 0).map((n2) => ({ params: { n1: n1.slug, n2: n2.slug }, props: { n1, n2 } })));
+const { n1, n2 } = Astro.props;
+const lista = ordenar(porCaminho.get(`${n1.slug}/${n2.slug}`) || []);
+const irmas = n1.n2.filter((x) => x.total > 0 && x.slug !== n2.slug);
+const comCa = lista.filter((p) => p.ca).length;
+---
+<Layout title={`${n2.nome} · ${n1.nome} · Segmento Comercial`} description={`${n2.nome}: ${lista.length} produtos com preço e estoque, pedido pelo WhatsApp e cotação para CNPJ. Segmento Comercial, São Paulo.`}>
+  <div class="container-x py-6">
+    <Breadcrumb itens={[{ nome: n1.nome, href: `/c/${n1.slug}/` }, { nome: n2.nome }]} />
+    <div class="mt-3 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 class="text-3xl sm:text-4xl">{n2.nome}</h1>
+        <p class="mt-2 text-sm text-ink-muted"><span class="t-num font-semibold text-ink">{lista.length}</span> produtos em {n1.nome}{n1.slug === "epi" && <> · <span class="t-num font-semibold text-ink">{comCa}</span> com número de CA no site</>}</p>
+      </div>
+      {irmas.length > 0 && (
+        <nav aria-label="Outras subcategorias" class="flex max-w-full gap-1.5 overflow-x-auto pb-1">
+          {irmas.map((x) => (<a href={`/c/${n1.slug}/${x.slug}/`} class="chip shrink-0 text-xs">{x.nome}</a>))}
+        </nav>
+      )}
+    </div>
+    <div class="mt-6">
+      <FiltrosCategoria client:load itens={lista.map(paraCard)} marcas={marcasDe(lista)} tamanhos={tamanhosDe(lista)} titulo={n2.nome} />
+    </div>
+  </div>
+</Layout>

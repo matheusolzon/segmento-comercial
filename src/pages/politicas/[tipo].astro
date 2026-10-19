@@ -1,0 +1,21 @@
+---
+/* Pré-requisitos do Merchant Center: entrega, trocas, pagamento, privacidade. Rascunhos marcados pra confirmar. */
+import Layout from "../../layouts/Layout.astro";
+import { EMPRESA } from "../../lib/site";
+const paginas: Record<string, { titulo: string; descricao: string; blocos: [string, string][] }> = {
+  entrega: { titulo: "Entrega e prazos", descricao: "Prazos, regiões e custos de entrega da Segmento Comercial.", blocos: [["Grande São Paulo", "Entrega em até 1 dia útil após a confirmação do pedido, por motoboy ou transportadora. [CONFIRMAR prazo e custo]"], ["Demais regiões", "Envio por Correios ou transportadora, com prazo informado antes do fechamento. [CONFIRMAR]"], ["Retirada na loja", `${EMPRESA.endereco.rua}, ${EMPRESA.endereco.bairro}, ${EMPRESA.endereco.cidade}. ${EMPRESA.horario}.`], ["Placas sob medida", "O prazo inclui a aprovação da arte e a produção. Ele é informado no orçamento."]] },
+  trocas: { titulo: "Trocas e devoluções", descricao: "Como trocar ou devolver um produto comprado na Segmento Comercial.", blocos: [["Arrependimento", "Compra feita à distância pode ser devolvida em até 7 dias corridos após o recebimento, com o produto sem uso e na embalagem original (art. 49 do CDC)."], ["Defeito", "Produto com defeito de fabricação é trocado dentro da garantia do fabricante. Fale com a loja com a nota fiscal."], ["Tamanho errado", "Calçado e vestuário sem uso trocam de tamanho em até 7 dias. [CONFIRMAR regra]"], ["Produto sob medida", "Placa e peça fabricadas sob medida não têm troca por arrependimento, porque são produzidas a partir da arte aprovada."]] },
+  pagamento: { titulo: "Pagamento", descricao: "Formas de pagamento aceitas pela Segmento Comercial.", blocos: [["Pessoa física", "Pix, cartão de crédito e boleto. [CONFIRMAR parcelamento]"], ["Empresa (CNPJ)", "Pix, cartão, boleto e faturamento a prazo mediante cadastro. [CONFIRMAR prazo e limite]"], ["Nota fiscal", "Todo pedido sai com nota fiscal."]] },
+  privacidade: { titulo: "Privacidade", descricao: "Como a Segmento Comercial trata os dados pessoais de quem usa o site.", blocos: [["O que coletamos", "Nome, telefone e, quando você informa, empresa, CNPJ e CEP, só pra responder ao pedido ou cotação."], ["Para que usamos", "Atender, orçar, entregar e emitir nota fiscal. Não vendemos nem cedemos dados."], ["Medição", "O site pode usar ferramentas de medição de audiência (Google Analytics) e de anúncios. Você pode recusar no navegador."], ["Seus direitos", `Pedir acesso, correção ou exclusão dos seus dados pelo e-mail ${EMPRESA.email}, conforme a LGPD.`], ["Responsável", `${EMPRESA.legalName}, CNPJ ${EMPRESA.cnpj}.`]] },
+};
+export const getStaticPaths = () => ["entrega", "trocas", "pagamento", "privacidade"].map((tipo) => ({ params: { tipo } }));
+const { tipo } = Astro.params;
+const pg = paginas[tipo!];
+---
+<Layout title={`${pg.titulo} · Segmento Comercial`} description={pg.descricao}>
+  <section class="container-x max-w-3xl py-10">
+    <h1>{pg.titulo}</h1>
+    <dl class="mt-6 divide-y divide-line">{pg.blocos.map(([t, d]) => <div class="py-4"><dt class="font-semibold">{t}</dt><dd class="mt-1 text-[15px] text-ink-muted">{d}</dd></div>)}</dl>
+    <p class="mt-8 text-xs text-ink-muted">Rascunho do protótipo. Os itens marcados [CONFIRMAR] são decididos com a empresa antes de publicar.</p>
+  </section>
+</Layout>

@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import OrcamentoWizard from "../components/islands/OrcamentoWizard";
+import { ORCAMENTO_FABRICACAO } from "../lib/orcamento-flows";
+import { porCaminho } from "../lib/catalogo";
+const placasProntas = (porCaminho.get("sinalizacao-e-seguranca/placas") || []).length + (porCaminho.get("sinalizacao-e-seguranca/combate-a-incendio") || []).length;
+const materiais = [["Chapa de aço com película refletiva", "Placa de trânsito e viária", "Externo", "Alta"], ["Alumínio com película refletiva", "Trânsito, condomínio, estacionamento", "Externo", "Alta, não enferruja"], ["PS adesivado", "Sinalização interna NR-26", "Interno", "Média"], ["Fotoluminescente", "Rota de fuga, extintor, hidrante", "Interno", "Alta, brilha no escuro"], ["ACM", "Fachada, revestimento, painel", "Externo", "Alta"], ["Acrílico, PVC e MDF", "Letra caixa, gravação, display", "Interno e externo", "Varia com o material"]];
+const processo = [["Orçamento", "Resposta em horário comercial com preço e prazo"], ["Arte e prova", "Você aprova a prova digital antes de produzir"], ["Produção", "Fábrica própria em Casa Verde, CNC e laser"], ["Entrega ou instalação", "Retirada, entrega na Grande SP ou instalação no local"]];
+const faq = [["Que formato de arte vocês aceitam?", "Vetor (AI, CDR, PDF, DXF) é o ideal. Com logo em imagem a fábrica refaz a arte."], ["Tem pedido mínimo?", "Depende do tipo. Placa padrão de trânsito sai a partir de 1 unidade."], ["Vocês instalam?", "Fachada em ACM, letra caixa e luminoso podem ir com instalação. Peça no orçamento."], ["Atendem órgão público e licitação?", "Sim, com nota fiscal e especificação técnica."]];
+---
+<Layout title="Fabricação de placas sob medida · trânsito, veicular, ACM, letra caixa, CNC · Segmento Comercial" description="Fábrica própria de placas em São Paulo: trânsito padrão CONTRAN, veicular e frota, segurança NR-26, fachada em ACM, letra caixa, luminoso, corte e gravação CNC e laser. Orçamento pelo WhatsApp.">
+  <div class="relative">
+    <img src="/img/fabricacao-cnc-1600.webp" srcset="/img/fabricacao-cnc-960.webp 960w, /img/fabricacao-cnc-1600.webp 1600w" sizes="100vw" alt="" width="1536" height="1024" class="aspect-[4/5] w-full object-cover sm:aspect-[21/9]" fetchpriority="high" data-trocar="foto real da fábrica deles" />
+    <span class="absolute right-3 top-3 bg-surface px-2 py-1 text-[10px] uppercase tracking-[0.06em] text-ink-muted">imagem ilustrativa</span>
+  </div>
+  <section class="container-x grid gap-8 py-8 lg:grid-cols-2 lg:gap-12">
+    <div>
+      <h1 class="uppercase !text-[36px] !leading-[36px] sm:!text-[52px] sm:!leading-[50px]">Placas feitas na nossa fábrica, em São Paulo.</h1>
+      <ul class="mt-6 space-y-3 text-[15px]">
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>CNC e laser próprios. Trânsito, veicular, NR-26, ACM, letra caixa e luminoso.</li>
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>Arte aprovada em prova digital antes de produzir.</li>
+        <li class="flex gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 border border-ink bg-seg"></span>Entrega na Grande SP ou instalação no local.</li>
+      </ul>
+      <p class="mt-6 text-sm text-ink-muted">Precisa de placa padrão da prateleira? <a href="/c/sinalizacao-e-seguranca/placas/" class="font-medium text-vinho-deep underline">Placas prontas ({placasProntas})</a>.</p>
+    </div>
+    <OrcamentoWizard client:load config={ORCAMENTO_FABRICACAO} entrada="hero" />
+  </section>
+  <section class="container-x mt-6">
+    <div class="secao-cabeca"><h2>Tipos</h2><span class="text-sm text-ink-muted">8 linhas de fabricação</span></div>
+    <ul class="grade grid-cols-2 md:grid-cols-4">
+      {ORCAMENTO_FABRICACAO.flows.map((f) => <li><button type="button" data-flow={f.id} class="flex h-full w-full cursor-pointer flex-col bg-surface p-4 text-left hover:bg-zinco"><span class="font-semibold">{f.label}</span><span class="mt-1 text-xs text-ink-muted">{f.resumo}</span><span class="mt-3 text-sm font-medium text-vinho-deep">Orçar este tipo</span></button></li>)}
+    </ul>
+  </section>
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>Materiais</h2></div>
+    <div class="overflow-x-auto"><table class="w-full min-w-[640px] text-[15px]"><thead><tr class="bg-zinco text-left"><th class="rotulo p-3">Material</th><th class="rotulo p-3">Indicado para</th><th class="rotulo p-3">Uso</th><th class="rotulo p-3">Durabilidade</th></tr></thead><tbody>{materiais.map((m) => <tr class="border-b border-line">{m.map((c, i) => <td class:list={["p-3", i === 0 ? "font-medium" : "text-ink-muted"]}>{c}</td>)}</tr>)}</tbody></table></div>
+    <p class="mt-2 text-xs text-ink-muted">Medidas e prazos padrão a confirmar com a fábrica.</p>
+  </section>
+  <section class="container-x mt-12">
+    <div class="secao-cabeca"><h2>Como funciona</h2></div>
+    <ol class="grade grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">{processo.map(([t, d], i) => <li class="bg-surface p-4"><span class="rotulo">Etapa {i + 1}</span><span class="mt-1 block font-semibold">{t}</span><span class="mt-1 block text-sm text-ink-muted">{d}</span></li>)}</ol>
+  </section>
+  <section class="container-x mt-12 max-w-3xl">
+    <div class="secao-cabeca"><h2>Perguntas</h2></div>
+    <dl class="divide-y divide-line">{faq.map(([q, a]) => <div class="py-3"><dt class="font-semibold">{q}</dt><dd class="mt-1 text-sm text-ink-muted">{a}</dd></div>)}</dl>
+  </section>
+  <script is:inline>
+    document.querySelectorAll("[data-flow]").forEach((b) => b.addEventListener("click", () => { window.dispatchEvent(new CustomEvent("orcamento:select", { detail: { flowId: b.dataset.flow } })); document.querySelector("[data-orcamento]")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  </script>
+</Layout>

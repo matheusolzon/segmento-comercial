@@ -27,9 +27,9 @@ const fatos = [[`${EMPRESA.anos} anos`, "em Casa Verde Alta, SP"], [`${EMPRESA.g
   <VitrineAbas />
   <BannerDuplo />
   <Segmentos />
-  <Vitrine id="h-sinalizacao" titulo="Sinalização para obra e condomínio" href="/c/sinalizacao-e-seguranca/" linkTexto={`Ver os ${totalDe("sinalizacao-e-seguranca")} itens`} produtos={sinalizacao} />
+  <Vitrine id="h-sinalizacao" titulo="Sinalização para obra e condomínio" href="/c/sinalizacao-e-seguranca/" total={totalDe("sinalizacao-e-seguranca")} nome="sinalização" produtos={sinalizacao} />
   <FabricaFotos />
-  <Vitrine id="h-ferramentas" titulo="Ferramentas e ferragens" href="/c/ferramentas-e-ferragens/" linkTexto={`Ver os ${totalDe("ferramentas-e-ferragens")} itens`} produtos={ferramentas} />
+  <Vitrine id="h-ferramentas" titulo="Ferramentas e ferragens" href="/c/ferramentas-e-ferragens/" total={totalDe("ferramentas-e-ferragens")} nome="ferramentas e ferragens" produtos={ferramentas} />
 
   <section class="container-x mt-12" aria-labelledby="h-marcas">
     <div class="secao-cabeca"><h2 id="h-marcas">Marcas no estoque</h2><span class="text-sm text-ink-muted">{nMarcas} marcas</span></div>

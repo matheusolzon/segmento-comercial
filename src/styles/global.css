@@ -138,3 +138,10 @@
 @keyframes barra { to { transform: scaleX(1); } }
 @keyframes zebra-anda { to { background-position: 33.94px 0; } }
 .zebra-anda { animation: zebra-anda 1.6s linear infinite; }
+
+/* topo carvão abaixo de lg: botão da busca amarelo (o vinho some no carvão) e foco amarelo (o vinho dá 1,5:1 no carvão) */
+@media (max-width: 1023.98px) {
+  .topo-escuro form[role="search"] > .flex > button[type="submit"] { background: var(--color-seg); color: var(--color-ink); }
+  .topo-escuro form[role="search"] > .flex > button[type="submit"]:hover { background: #ffd42e; }
+  .topo-escuro :focus-visible { outline-color: var(--color-seg); }
+}

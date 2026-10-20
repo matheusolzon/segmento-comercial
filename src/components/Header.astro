@@ -1,5 +1,6 @@
 ---
-/* Topo em três andares: faixa de confiança (telefone, prazo, CNPJ), marca + busca + WhatsApp, menu de seções. */
+/* Topo em três andares: faixa de confiança (telefone, prazo, CNPJ), marca + busca + WhatsApp, menu de seções.
+ * Abaixo de lg (menu no botão) o topo é carvão, com logo claro: contrasta com os banners logo abaixo (pedido do Matheus, 20/10). */
 import { Phone, MessageCircle, Menu } from "lucide-react";
 import { EMPRESA, TRUST } from "../lib/site";
 import { TAXONOMIA } from "../lib/catalogo";
@@ -8,27 +9,28 @@ const wa = `https://api.whatsapp.com/send?phone=${EMPRESA.whatsappDigits}&text=$
 const atual = Astro.url.pathname;
 const curto: Record<string, string> = { "epi": "EPI", "sinalizacao-e-seguranca": "Sinalização", "ferramentas-e-ferragens": "Ferramentas", "fitas-colas-e-adesivos": "Fitas e colas", "veicular-e-frota": "Veicular e frota", "uso-geral": "Uso geral" };
 ---
-<header class="border-b border-line bg-surface">
+<header class="topo-escuro bg-ink text-white lg:border-b lg:border-line lg:bg-surface lg:text-ink">
 <a href="#conteudo" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-seg focus:px-3 focus:py-2">Pular para o conteúdo</a>
-<div class="hidden bg-zinco text-[13px] text-ink-muted sm:block">
+<div class="hidden border-b border-white/10 bg-ink text-[13px] text-white/70 sm:block lg:border-0 lg:bg-zinco lg:text-ink-muted">
   <div class="container-x flex min-h-9 items-center justify-between gap-4">
     <ul class="flex items-center gap-x-5 overflow-x-auto whitespace-nowrap py-1">
       {TRUST.slice(0, 3).map((t) => (
         <li class="flex items-center gap-1.5"><span class="h-1.5 w-1.5 border border-ink bg-seg" aria-hidden="true"></span>{t.texto}</li>
       ))}
     </ul>
-    <span class="flex items-center gap-4"><span>{EMPRESA.horario}</span><a href={`tel:${EMPRESA.telefoneE164}`} class="flex items-center gap-1.5 font-semibold text-ink"><Phone className="h-3.5 w-3.5" aria-hidden="true" />{EMPRESA.telefone}</a></span>
+    <span class="flex shrink-0 items-center gap-4"><span class="hidden lg:inline">{EMPRESA.horario}</span><a href={`tel:${EMPRESA.telefoneE164}`} class="flex items-center gap-1.5 whitespace-nowrap font-semibold text-white lg:text-ink"><Phone className="h-3.5 w-3.5" aria-hidden="true" />{EMPRESA.telefone}</a></span>
   </div>
 </div>
   <div class="container-x flex items-center gap-4 py-3 lg:gap-8">
     <a href="/" class="flex shrink-0 items-center" aria-label="Segmento Comercial, início">
-      <img src="/img/logo-segmento-comercial.png" alt="Segmento Comercial" width="190" height="50" class="h-9 w-auto sm:h-11" />
+      <img src="/img/logo-segmento-comercial-claro.png" alt="Segmento Comercial" width="190" height="50" class="h-9 w-auto sm:h-11 lg:hidden" />
+      <img src="/img/logo-segmento-comercial.png" alt="Segmento Comercial" width="190" height="50" class="hidden h-11 w-auto lg:block" />
     </a>
     <div class="hidden flex-1 md:block"><Busca client:idle /></div>
     <div class="ml-auto flex items-center gap-2">
-      <a href={`tel:${EMPRESA.telefoneE164}`} class="btn-secondary min-h-11 px-3 sm:hidden" aria-label={`Ligar para ${EMPRESA.telefone}`}><Phone className="h-5 w-5" aria-hidden="true" /></a>
-      <a href={wa} target="_blank" rel="noopener" data-wa="header" class="btn-secondary min-h-11 px-3 sm:px-4" aria-label="Falar no WhatsApp"><MessageCircle className="h-5 w-5" aria-hidden="true" /><span class="hidden sm:inline">WhatsApp</span></a>
-      <button type="button" class="btn-secondary min-h-11 px-3 lg:hidden" aria-label="Abrir menu" aria-expanded="false" data-menu-abrir><Menu className="h-5 w-5" aria-hidden="true" /></button>
+      <a href={`tel:${EMPRESA.telefoneE164}`} class="btn-secondary min-h-11 px-3 sm:hidden max-lg:border-white/50 max-lg:bg-transparent max-lg:text-white max-lg:hover:bg-white/10" aria-label={`Ligar para ${EMPRESA.telefone}`}><Phone className="h-5 w-5" aria-hidden="true" /></a>
+      <a href={wa} target="_blank" rel="noopener" data-wa="header" class="btn-secondary min-h-11 px-3 sm:px-4 max-lg:border-white/50 max-lg:bg-transparent max-lg:text-white max-lg:hover:bg-white/10" aria-label="Falar no WhatsApp"><MessageCircle className="h-5 w-5" aria-hidden="true" /><span class="hidden sm:inline">WhatsApp</span></a>
+      <button type="button" class="btn-secondary min-h-11 px-3 lg:hidden max-lg:border-white/50 max-lg:bg-transparent max-lg:text-white max-lg:hover:bg-white/10" aria-label="Abrir menu" aria-expanded="false" data-menu-abrir><Menu className="h-5 w-5" aria-hidden="true" /></button>
     </div>
   </div>
   <div class="container-x pb-3 md:hidden"><Busca client:idle /></div>

@@ -32,17 +32,17 @@ const curto: Record<string, string> = { "epi": "EPI", "sinalizacao-e-seguranca":
     </div>
   </div>
   <div class="container-x pb-3 md:hidden"><Busca client:idle /></div>
-  <nav aria-label="Seções da loja" class="border-t border-line" data-menu>
+  <nav aria-label="Seções da loja" class="bg-ink text-white" data-menu>
     <ul class="container-x hidden flex-wrap items-center gap-x-6 text-[14px] font-medium lg:flex">
       {TAXONOMIA.n1.map((n1) => (
-        <li><a href={`/c/${n1.slug}/`} class:list={["block border-b-2 py-3 hover:text-vinho-deep", atual.startsWith(`/c/${n1.slug}`) ? "border-vinho text-vinho-deep" : "border-transparent"]}>{curto[n1.slug] ?? n1.nome}</a></li>
+        <li><a href={`/c/${n1.slug}/`} class:list={["block border-b-2 py-3 text-white/85 hover:text-white", atual.startsWith(`/c/${n1.slug}`) ? "border-seg !text-white" : "border-transparent"]}>{curto[n1.slug] ?? n1.nome}</a></li>
       ))}
-      <li class="ml-auto"><a href="/fabricacao/" class:list={["flex items-center gap-2 border-b-2 py-3 font-semibold hover:text-vinho-deep", atual.startsWith("/fabricacao") ? "border-seg" : "border-transparent"]}><span class="h-2 w-2 border border-ink bg-seg" aria-hidden="true"></span>Fabricação sob medida</a></li>
-      <li><a href="/empresas/" class:list={["block border-b-2 py-3 font-semibold hover:text-vinho-deep", atual.startsWith("/empresas") ? "border-vinho" : "border-transparent"]}>Para empresas</a></li>
+      <li class="ml-auto"><a href="/fabricacao/" class:list={["flex items-center gap-2 border-b-2 py-3 font-semibold hover:text-seg", atual.startsWith("/fabricacao") ? "border-seg" : "border-transparent"]}><span class="h-2 w-2 bg-seg" aria-hidden="true"></span>Fabricação sob medida</a></li>
+      <li><a href="/empresas/" class:list={["block border-b-2 py-3 font-semibold hover:text-seg", atual.startsWith("/empresas") ? "border-seg" : "border-transparent"]}>Para empresas</a></li>
     </ul>
     <ul class="container-x hidden flex-col py-2 text-[0.95rem] font-medium lg:!hidden" data-menu-lista>
       {TAXONOMIA.n1.map((n1) => (<li><a href={`/c/${n1.slug}/`} class="block py-2.5">{n1.nome}</a></li>))}
-      <li class="hairline mt-1 pt-1"><a href="/fabricacao/" class="block py-2.5 font-semibold">Fabricação sob medida</a></li>
+      <li class="mt-1 border-t border-white/15 pt-1"><a href="/fabricacao/" class="block py-2.5 font-semibold">Fabricação sob medida</a></li>
       <li><a href="/empresas/" class="block py-2.5 font-semibold">Para empresas</a></li>
     </ul>
   </nav>

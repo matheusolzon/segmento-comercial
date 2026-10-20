@@ -1,0 +1,34 @@
+---
+/* Dois banners de meio de página: ferramentas (claro, só produto recortado) e kit caminhão (escuro, foto + produto). */
+import { ArrowRight } from "lucide-react";
+import { totalDe, recorte, banco } from "../../lib/home";
+const borda = "!border-white [&>*]:!border-white";
+---
+<section class="container-x mt-12 grid gap-3 md:grid-cols-2 lg:gap-4" aria-label="Destaques de categoria">
+  <a href="/c/ferramentas-e-ferragens/" class="group relative flex h-[380px] flex-col overflow-hidden bg-zinco p-5 hover:bg-zinco-2 sm:h-[320px] sm:p-8">
+    <div class="relative z-10 flex flex-col sm:max-w-[52%]">
+      <span class="etiqueta self-start bg-white"><span><span class="rot">Ferramentas</span><span class="val">{totalDe("ferramentas-e-ferragens")} itens</span></span></span>
+      <span class="t-banner mt-4 text-[30px] sm:text-[36px]">Ferramenta para <span class="text-vinho">a obra toda</span></span>
+      <span class="mt-3 text-[14px] leading-5 text-ink-muted">Manuais, discos, brocas, fixação, cintas e lubrificante, com REF em cada item.</span>
+      <span class="btn-primary mt-5 self-start">Ver ferramentas <ArrowRight className="h-4 w-4" aria-hidden="true" /></span>
+    </div>
+    <span class="absolute bottom-0 right-0 h-[48%] w-full sm:h-full sm:w-[50%]" aria-hidden="true">
+      <img src={recorte("kit-ferramentas")} alt="" width="748" height="573" loading="lazy" class="produto-flutua absolute bottom-[8%] right-[4%] w-[58%] sm:bottom-[20%] sm:right-[6%] sm:w-[78%]" />
+      <img src={recorte("chave-grifo")} alt="" width="748" height="748" loading="lazy" class="produto-flutua absolute bottom-[-4%] left-[4%] w-[34%] -rotate-[32deg] sm:bottom-[-6%] sm:left-[-6%] sm:w-[52%]" />
+      <img src={recorte("wd40")} alt="" width="222" height="736" loading="lazy" class="produto-flutua absolute bottom-[4%] right-[36%] h-[64%] w-auto sm:bottom-[6%] sm:right-[42%] sm:h-[46%]" />
+      <img src={recorte("trena")} alt="" width="748" height="748" loading="lazy" class="produto-flutua absolute bottom-[-2%] right-[2%] w-[26%] sm:bottom-[2%] sm:right-[0%] sm:w-[34%]" />
+    </span>
+  </a>
+  <a href="/c/veicular-e-frota/" class="group relative flex h-[380px] flex-col overflow-hidden bg-ink p-5 text-white hover:bg-black sm:h-[320px] sm:p-8">
+    <span class="absolute inset-x-0 bottom-0 h-[40%] overflow-hidden sm:inset-y-0 sm:left-auto sm:h-auto sm:w-[44%]" aria-hidden="true">
+      <img src={banco("frota-caminhao")} alt="" width="960" height="1157" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" style="object-position:50% 62%" />
+    </span>
+    <div class="relative z-10 flex flex-col sm:max-w-[54%]">
+      <span class={`etiqueta self-start bg-ink ${borda}`}><span><span class="rot !text-white/70">Norma</span><span class="val">NBR 9735</span></span></span>
+      <span class="t-banner mt-4 text-[30px] sm:text-[36px]">Kit caminhão <span class="text-seg">em dia</span></span>
+      <span class="mt-3 text-[14px] leading-5 text-white/70">Faixa refletiva, calço, cone e rótulo de risco para a frota rodar dentro da norma.</span>
+      <span class="btn-amarelo mt-5 self-start">Montar o kit <ArrowRight className="h-4 w-4" aria-hidden="true" /></span>
+    </div>
+    <img src={recorte("faixa-refletiva")} alt="" width="748" height="734" loading="lazy" class="produto-flutua absolute bottom-[4%] left-[2%] w-[42%] sm:bottom-[4%] sm:left-auto sm:right-[32%] sm:w-[30%]" aria-hidden="true" />
+  </a>
+</section>

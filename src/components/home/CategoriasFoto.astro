@@ -1,0 +1,24 @@
+---
+/* Compre por categoria: fileira rolável de quadrados com o produto recortado e a faixa escura com o nome. */
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CATEGORIAS_FOTO, recorte } from "../../lib/home";
+---
+<section class="container-x mt-10" aria-labelledby="h-categorias" data-rolagem>
+  <div class="secao-cabeca">
+    <h2 id="h-categorias">Compre por categoria</h2>
+    <span class="flex items-center gap-2"><span class="mr-2 hidden text-sm text-ink-muted sm:inline">{CATEGORIAS_FOTO.length} categorias</span><button type="button" class="seta" data-rolar="-1" aria-label="Categorias anteriores"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button><button type="button" class="seta" data-rolar="1" aria-label="Mais categorias"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button></span>
+  </div>
+  <ul class="rolagem gap-2" data-rolagem-lista>
+    {CATEGORIAS_FOTO.map((c) => (
+      <li class="w-[36%] shrink-0 sm:w-[22%] md:w-[17.5%] lg:w-[calc((100%-56px)/8)]">
+        <a href={`/c/${c.caminho}/`} class="group flex h-full flex-col bg-zinco hover:bg-zinco-2" aria-label={`${c.nome}, ${c.total} itens`}>
+          <span class="relative block aspect-square">
+            <img src={recorte(c.img, 320)} alt="" width="320" height="320" loading="lazy" decoding="async" class="absolute inset-[13%] h-[74%] w-[74%] object-contain transition-transform duration-300 ease-out group-hover:scale-[1.06]" />
+            <span class="absolute right-2 top-2 text-[11px] font-medium text-ink-muted">{c.total}</span>
+          </span>
+          <span class="flex min-h-12 flex-1 items-center justify-center bg-ink px-2 py-2 text-center text-[12px] font-semibold uppercase leading-4 tracking-[0.04em] text-white group-hover:bg-vinho">{c.curto}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

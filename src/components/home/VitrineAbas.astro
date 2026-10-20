@@ -1,0 +1,33 @@
+---
+/* "Encontre o EPI certo": abas por parte do corpo, cada uma com a sua prateleira rolável (modelo Super EPI). */
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProdutoCardR from "../islands/ProdutoCardR";
+import { vitrine, totalDe } from "../../lib/home";
+const abas = [
+  { id: "luvas", nome: "Luvas", caminho: "epi/luvas", ids: [24898, 7428, 7424, 4214, 24894] },
+  { id: "calcados", nome: "Botinas e calçados", caminho: "epi/calcados-de-seguranca", ids: [7814, 19926, 11546, 4949, 3145] },
+  { id: "olhos", nome: "Óculos e face", caminho: "epi/olhos-e-face", ids: [11511, 3360, 3366, 6312] },
+  { id: "cabeca", nome: "Capacetes", caminho: "epi/protecao-da-cabeca", ids: [9829, 11437, 9831, 3201] },
+  { id: "altura", nome: "Trabalho em altura", caminho: "epi/trabalho-em-altura", ids: [13440, 5179, 20459, 12931] },
+  { id: "respiratoria", nome: "Respiratória", caminho: "epi/protecao-respiratoria", ids: [7404, 22437, 4685, 3580] },
+].map((a: { id: string; nome: string; caminho: string; ids?: number[] }) => ({ ...a, produtos: vitrine(a.caminho, 8, a.ids), total: totalDe(a.caminho) }));
+---
+<section class="container-x mt-12" aria-labelledby="h-epi-certo" data-rolagem data-abas>
+  <div class="secao-cabeca">
+    <h2 id="h-epi-certo">Encontre o EPI certo</h2>
+    <span class="hidden gap-2 sm:flex"><button type="button" class="seta" data-rolar="-1" aria-label="Produtos anteriores"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button><button type="button" class="seta" data-rolar="1" aria-label="Mais produtos"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button></span>
+  </div>
+  <div role="tablist" aria-label="Tipo de EPI" class="rolagem -mx-4 mb-4 gap-2 px-4 sm:mx-0 sm:flex-wrap sm:px-0">
+    {abas.map((a, i) => (
+      <button type="button" role="tab" id={`aba-${a.id}`} aria-controls={`painel-${a.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="chip shrink-0 aria-selected:border-vinho aria-selected:bg-vinho aria-selected:text-white">{a.nome}<span class="ml-2 text-[12px] font-normal opacity-70">{a.total}</span></button>
+    ))}
+  </div>
+  {abas.map((a, i) => (
+    <div role="tabpanel" id={`painel-${a.id}`} aria-labelledby={`aba-${a.id}`} hidden={i !== 0}>
+      <ul class="rolagem border-l border-t border-line" data-rolagem-lista>
+        {a.produtos.map((p) => <li class="w-1/2 shrink-0 border-b border-r border-line sm:w-1/3 lg:w-1/4"><ProdutoCardR p={p} /></li>)}
+      </ul>
+      <a href={`/c/${a.caminho}/`} class="mt-3 inline-block text-sm font-medium text-vinho-deep hover:underline">Ver os {a.total} itens de {a.nome.toLowerCase()}</a>
+    </div>
+  ))}
+</section>

@@ -1,0 +1,201 @@
+---
+/* Topo da home v2: carrossel de 4 banners + 2 banners laterais (desenho da Super EPI).
+ * Banner é HTML: recorte de produto real do catálogo, foto de banco e tipografia. Nada de texto em imagem.
+ * Celular: texto em cima, imagem ocupa o resto (flex). Desktop: imagem absoluta à direita.
+ * O 1º slide não anima no load (é o LCP); os outros animam as peças [data-anim] quando entram. */
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Pause, Play } from "lucide-react";
+import { aPartirDe, totalDe, emEstoque, recorte, banco } from "../../lib/home";
+import { EMPRESA } from "../../lib/site";
+const slides = ["EPI", "Fábrica de placas", "Sinalização", "Para empresas"];
+const fab = [["transito", "Trânsito"], ["veicular", "Frota"], ["seguranca", "NR-26"], ["acm", "Fachada ACM"], ["letra", "Letra caixa"], ["cnc", "Laser"]];
+const segs = [["obra", "Obra"], ["galpao", "Galpão"], ["frota", "Frota"], ["industria", "Indústria"], ["condominio", "Condomínio"]];
+const borda = "!border-white [&>*]:!border-white";
+const titulo = "t-banner !text-[34px] sm:!text-[40px] xl:!text-[46px]";
+const texto = "relative z-10 order-1 flex flex-col p-5 pb-4 pt-6 sm:p-8 md:h-full md:justify-center md:p-10 xl:pl-12";
+const visual = "relative order-2 min-h-0 flex-1 md:absolute md:inset-y-0 md:right-0";
+---
+<section class="container-x pt-4 lg:pt-5" aria-label="Destaques">
+  <div class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_368px] lg:gap-4">
+    <div class="flex min-w-0 flex-col" data-carrossel role="region" aria-roledescription="carrossel" aria-label="Destaques da loja" data-pausado="0" data-tocando="0" style="--dur:6500ms">
+      <div class="relative h-[500px] overflow-hidden sm:h-[460px] lg:h-[440px]">
+        <div class="carrossel-trilho" data-trilho>
+
+          <!-- 1. EPI -->
+          <div data-slide class="relative flex h-full flex-col overflow-hidden bg-zinco md:block" role="group" aria-roledescription="slide" aria-label="1 de 4: EPI">
+            <div class={`${visual} md:w-[46%]`}>
+              <div data-anim class="absolute inset-0 bg-seg" style="--dx:56px;--dy:0"></div>
+              <div class="zebra absolute inset-x-0 bottom-0 h-2.5"></div>
+              <div data-anim class="absolute bottom-0 right-[4%] h-[94%] w-[78%] md:right-[-4%] md:h-[90%] md:w-[112%]" style="--d:110ms;--dy:36px">
+                <img src="/img/banco/epi-trabalhador-recorte.webp" alt="" width="1307" height="1100" fetchpriority="high" class="h-full w-full object-contain object-bottom" />
+              </div>
+              <figure data-anim class="absolute bottom-[5%] left-[2%] w-[40%] md:bottom-[6%] md:left-[-12%] md:w-[48%]" style="--d:260ms;--dx:-24px">
+                <img src={recorte("botina-trekking")} alt="" width="748" height="484" loading="lazy" class="produto-flutua w-full" />
+                <figcaption class="selo-ca absolute -top-1 right-[8%]"><span>CA</span><span>13808</span></figcaption>
+              </figure>
+              <div data-anim class="absolute right-[4%] top-[5%] w-[24%] md:w-[30%]" style="--d:360ms;--s:0.85">
+                <img src={recorte("luva-kalipso")} alt="" width="747" height="748" loading="lazy" class="produto-flutua w-full rotate-[14deg]" />
+              </div>
+            </div>
+            <div class={`${texto} md:max-w-[56%]`}>
+              <span data-anim class="etiqueta self-start bg-white"><span><span class="rot">EPI</span><span class="val">{totalDe("epi")} itens</span></span><span><span class="val">10 categorias</span></span></span>
+              <h2 data-anim class={`${titulo} mt-4 text-ink`} style="--d:60ms">Proteção da cabeça <span class="text-vinho">aos pés</span></h2>
+              <p data-anim class="mt-3 hidden max-w-sm text-ink-muted sm:block" style="--d:120ms">Capacete, óculos, luva, respirador e botina para a equipe toda. Retire no balcão ou peça pelo WhatsApp.</p>
+              <div data-anim class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2" style="--d:180ms">
+                <a href="/c/epi/" class="btn-primary">Ver EPIs <ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
+                <a href="/c/epi/calcados-de-seguranca/" class="hidden text-sm font-semibold text-vinho-deep underline-offset-4 hover:underline sm:inline">Botas e botinas a partir de {aPartirDe("epi/calcados-de-seguranca", /^bot/i)}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Fabricação -->
+          <div data-slide class="relative flex h-full flex-col overflow-hidden bg-ink text-white md:block" role="group" aria-roledescription="slide" aria-label="2 de 4: Fábrica de placas" inert aria-hidden="true">
+            <div class={`${visual} overflow-hidden md:w-[50%]`}>
+              <img src={banco("fabrica-plasma", 1600)} alt="" width="1600" height="1067" loading="lazy" class="foto-lenta h-full w-full object-cover" style="object-position:58% 50%" data-trocar="foto da CNC/laser deles" />
+              <span class="absolute right-2 top-2 bg-ink/80 px-2 py-1 text-[10px] uppercase tracking-[0.06em] text-white/75">imagem ilustrativa</span>
+              <div data-anim class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4" style="--d:280ms">
+                <span class={`etiqueta etiqueta-lg bg-ink text-white ${borda}`}><span class="fab"><span class="val">Fábrica própria</span></span><span><span class="val">CNC e laser</span></span><span class="hidden sm:flex"><span class="val">São Paulo</span></span></span>
+              </div>
+            </div>
+            <div class={`${texto} md:max-w-[52%]`}>
+              <h2 data-anim class={titulo}>Placa sob medida, <span class="text-seg">feita na nossa fábrica</span></h2>
+              <p data-anim class="mt-3 hidden max-w-xs text-white/75 sm:block md:hidden" style="--d:80ms">Você manda a medida e o material, a gente orça pelo WhatsApp.</p>
+              <ul data-anim class="mt-4 hidden flex-wrap gap-2 md:flex" style="--d:140ms">
+                {fab.map(([id, nome]) => <li><a href={`/fabricacao/?tipo=${id}`} class="chip-claro">{nome}</a></li>)}
+              </ul>
+              <div data-anim class="mt-5" style="--d:200ms"><a href="/fabricacao/" class="btn-amarelo">Orçar placa sob medida <ArrowRight className="h-4 w-4" aria-hidden="true" /></a></div>
+            </div>
+          </div>
+
+          <!-- 3. Sinalização -->
+          <div data-slide class="relative flex h-full flex-col overflow-hidden bg-seg md:block" role="group" aria-roledescription="slide" aria-label="3 de 4: Sinalização" inert aria-hidden="true">
+            <div class={`${visual} mb-4 md:bottom-4 md:mb-0 md:w-[50%]`}>
+              <div data-anim class="absolute bottom-0 right-[0%] h-[96%] w-[58%] md:h-[94%] md:w-[62%]" style="--d:80ms;--dy:48px">
+                <img src={recorte("cone-72")} alt="" width="748" height="748" loading="lazy" class="produto-flutua h-full w-full object-contain object-bottom" />
+              </div>
+              <div data-anim class="absolute bottom-0 left-[-2%] h-[78%] w-[54%] md:h-[74%] md:w-[56%]" style="--d:200ms;--dy:48px">
+                <img src={recorte("placa-piso-molhado")} alt="" width="748" height="748" loading="lazy" class="produto-flutua h-full w-full object-contain object-bottom" />
+              </div>
+              <div data-anim class="absolute bottom-[-4%] left-[24%] w-[50%] md:w-[52%]" style="--d:320ms;--dx:24px">
+                <img src={recorte("fita-zebrada")} alt="" width="748" height="504" loading="lazy" class="produto-flutua w-full" />
+              </div>
+            </div>
+            <div class="zebra zebra-anda absolute inset-x-0 bottom-0 h-4" aria-hidden="true"></div>
+            <div class={`${texto} md:max-w-[52%]`}>
+              <span data-anim class="etiqueta self-start bg-white"><span><span class="rot">Sinalização</span><span class="val">{totalDe("sinalizacao-e-seguranca")} itens</span></span></span>
+              <h2 data-anim class={`${titulo} mt-4 text-ink`} style="--d:60ms">Isole a área. Sinalize a obra.</h2>
+              <p data-anim class="mt-3 hidden max-w-sm text-ink sm:block" style="--d:120ms">Cone, fita zebrada, placa e colete refletivo em estoque, para retirar no balcão em Casa Verde.</p>
+              <div data-anim class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2" style="--d:180ms">
+                <a href="/c/sinalizacao-e-seguranca/" class="btn-carvao">Ver sinalização <ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
+                <a href="/c/sinalizacao-e-seguranca/cones-e-bandeirolas/" class="hidden text-sm font-semibold text-ink underline underline-offset-4 sm:inline">Cones a partir de {aPartirDe("sinalizacao-e-seguranca/cones-e-bandeirolas", /^cone/i)}</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Empresas -->
+          <div data-slide class="relative flex h-full flex-col overflow-hidden bg-vinho text-white md:block" role="group" aria-roledescription="slide" aria-label="4 de 4: Para empresas" inert aria-hidden="true">
+            <div class={`${visual} overflow-hidden md:w-[46%]`}>
+              <img src={banco("galpao-duo", 1600)} alt="" width="1600" height="1067" loading="lazy" class="foto-lenta h-full w-full object-cover" style="object-position:40% 50%" />
+              <div data-anim class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4" style="--d:280ms">
+                <span class={`etiqueta etiqueta-lg bg-vinho text-white ${borda}`}><span><span class="val">Cotação formal</span></span><span><span class="val">Nota fiscal</span></span></span>
+              </div>
+            </div>
+            <div class={`${texto} md:max-w-[56%]`}>
+              <h2 data-anim class={titulo}>Kit da equipe, <span class="text-seg">num pedido só</span></h2>
+              <p data-anim class="mt-3 hidden max-w-sm text-white/80 sm:block" style="--d:80ms">Escolha o tipo de operação e receba o kit montado: EPI, sinalização e material de frota, com cotação formal.</p>
+              <ul data-anim class="mt-4 hidden flex-wrap gap-2 md:flex" style="--d:140ms">
+                {segs.map(([id, nome]) => <li><a href={`/empresas/?segmento=${id}`} class="chip-claro">{nome}</a></li>)}
+              </ul>
+              <div data-anim class="mt-5" style="--d:200ms"><a href="/empresas/" class="btn-branco">Pedir cotação para empresa <ArrowRight className="h-4 w-4" aria-hidden="true" /></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex h-11 items-stretch border-x border-b border-line bg-white">
+        <div class="grid flex-1 grid-cols-4">
+          {slides.map((nome, i) => (
+            <button type="button" data-ponto aria-current={i === 0 ? "true" : "false"} class="group relative flex cursor-pointer items-center justify-center px-2 text-[13px] font-medium text-ink-muted hover:text-ink aria-[current=true]:text-ink" aria-label={`Ir para o destaque ${i + 1}: ${nome}`}>
+              <span class="absolute inset-x-3 top-1/2 h-1 -translate-y-1/2 overflow-hidden bg-line sm:inset-x-0 sm:top-0 sm:h-[3px] sm:translate-y-0" aria-hidden="true"><span class="ponto-barra absolute inset-0 bg-vinho"></span></span>
+              <span class="hidden truncate sm:inline">{nome}</span>
+            </button>
+          ))}
+        </div>
+        <button type="button" data-anterior class="flex w-11 cursor-pointer items-center justify-center border-l border-line text-ink hover:bg-zinco" aria-label="Destaque anterior"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button>
+        <button type="button" data-pausa class="flex w-11 cursor-pointer items-center justify-center border-l border-line text-ink hover:bg-zinco" aria-label="Pausar destaques">
+          <span data-icone-pausa><Pause className="h-4 w-4" aria-hidden="true" /></span><span data-icone-play class="hidden"><Play className="h-4 w-4" aria-hidden="true" /></span>
+        </button>
+        <button type="button" data-proximo class="flex w-11 cursor-pointer items-center justify-center border-l border-line text-ink hover:bg-zinco" aria-label="Próximo destaque"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button>
+      </div>
+    </div>
+
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 lg:gap-4">
+      <a href="/c/epi/trabalho-em-altura/" class="group relative flex h-[156px] overflow-hidden bg-zinco p-4 hover:bg-zinco-2 sm:h-[212px] sm:p-5 lg:h-auto">
+        <div class="relative z-10 flex max-w-[60%] flex-col">
+          <span class="etiqueta self-start bg-white"><span><span class="rot">Norma</span><span class="val">NR-35</span></span></span>
+          <span class="t-banner mt-3 text-[22px] sm:text-[28px]">Trabalho em altura</span>
+          <span class="mt-2 hidden text-[13px] leading-5 text-ink-muted sm:block">Cinturão, talabarte e trava-queda</span>
+          <span class="mt-auto text-[13px] font-semibold text-vinho-deep group-hover:underline">A partir de {aPartirDe("epi/trabalho-em-altura")}</span>
+        </div>
+        <img src={recorte("cinturao")} alt="" width="498" height="748" loading="lazy" class="produto-flutua absolute bottom-[-8%] right-[6%] h-[112%] w-auto sm:bottom-[-6%] sm:h-[108%]" />
+      </a>
+      <a href="/contato/" class="group relative flex h-[156px] flex-col overflow-hidden bg-ink p-4 pt-6 text-white hover:bg-black sm:h-[212px] sm:p-5 sm:pt-7 lg:h-auto">
+        <span class="zebra absolute inset-x-0 top-0 h-2" aria-hidden="true"></span>
+        <span class="flex items-center gap-3"><span class="flex h-9 w-9 shrink-0 items-center justify-center border border-ink bg-seg text-ink"><MapPin className="h-5 w-5" aria-hidden="true" /></span><span class="t-banner text-[22px] sm:text-[28px]">Retire no balcão</span></span>
+        <span class="mt-3 text-[13px] leading-5 text-white/80">{EMPRESA.endereco.rua}, {EMPRESA.endereco.bairro}</span>
+        <span class="mt-1 hidden text-[13px] leading-5 text-white/60 sm:block">{EMPRESA.horario}</span>
+        <span class="mt-auto flex items-center justify-between gap-3">
+          <span class="text-[13px] font-semibold text-seg group-hover:underline">Como chegar</span>
+          <span class={`etiqueta bg-ink text-white ${borda}`}><span><span class="rot !text-white/70">Em estoque</span><span class="val">{emEstoque()} itens</span></span></span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* Carrossel: um timer só, que é a própria barra de progresso (CSS). Fim da barra = próximo slide.
+   * Pausa em hover (mouse), foco dentro e no botão. Com prefers-reduced-motion não há autoplay nem animação. */
+  document.querySelectorAll<HTMLElement>("[data-carrossel]").forEach((raiz) => {
+    const trilho = raiz.querySelector<HTMLElement>("[data-trilho]")!;
+    const slides = [...raiz.querySelectorAll<HTMLElement>("[data-slide]")];
+    const pontos = [...raiz.querySelectorAll<HTMLButtonElement>("[data-ponto]")];
+    const pausa = raiz.querySelector<HTMLButtonElement>("[data-pausa]")!;
+    const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let atual = 0, parado = reduz, emCima = false, focado = false;
+    const estado = () => {
+      raiz.dataset.tocando = reduz ? "0" : "1";
+      raiz.dataset.pausado = parado || emCima || focado ? "1" : "0";
+      pausa.setAttribute("aria-label", parado ? "Retomar destaques" : "Pausar destaques");
+      pausa.querySelector("[data-icone-pausa]")!.classList.toggle("hidden", parado);
+      pausa.querySelector("[data-icone-play]")!.classList.toggle("hidden", !parado);
+    };
+    const ir = (i: number) => {
+      i = (i + slides.length) % slides.length;
+      if (i === atual) return;
+      atual = i;
+      trilho.style.transform = `translate3d(${-100 * i}%,0,0)`;
+      slides.forEach((s, k) => { const on = k === i; s.toggleAttribute("inert", !on); s.setAttribute("aria-hidden", String(!on)); s.classList.remove("entrando"); });
+      if (!reduz) { void slides[i].offsetWidth; slides[i].classList.add("entrando"); }
+      pontos.forEach((p, k) => p.setAttribute("aria-current", String(k === i)));
+    };
+    pontos.forEach((p, k) => p.addEventListener("click", () => ir(k)));
+    raiz.querySelector("[data-anterior]")?.addEventListener("click", () => ir(atual - 1));
+    raiz.querySelector("[data-proximo]")?.addEventListener("click", () => ir(atual + 1));
+    pausa.addEventListener("click", () => { parado = !parado; estado(); });
+    raiz.querySelectorAll(".ponto-barra").forEach((b) => b.addEventListener("animationend", () => ir(atual + 1)));
+    raiz.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { emCima = true; estado(); } });
+    raiz.addEventListener("pointerleave", () => { emCima = false; estado(); });
+    raiz.addEventListener("focusin", () => { focado = true; estado(); });
+    raiz.addEventListener("focusout", (e) => { if (!raiz.contains(e.relatedTarget as Node)) { focado = false; estado(); } });
+    raiz.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") ir(atual - 1); if (e.key === "ArrowRight") ir(atual + 1); });
+    /* arrastar no celular: só horizontal claro, e o toque que arrastou não vira clique */
+    let x0 = 0, y0 = 0, arrastou = false;
+    trilho.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; arrastou = false; }, { passive: true });
+    trilho.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.4) { arrastou = true; ir(atual + (dx < 0 ? 1 : -1)); }
+    });
+    trilho.addEventListener("click", (e) => { if (arrastou) { e.preventDefault(); arrastou = false; } }, true);
+    estado();
+  });
+</script>

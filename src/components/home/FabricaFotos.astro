@@ -1,0 +1,33 @@
+---
+/* Bloco da fábrica: os 8 tipos do configurador de /fabricacao com foto. É o que nenhum concorrente de EPI tem. */
+import { ArrowRight } from "lucide-react";
+import { ORCAMENTO_FABRICACAO } from "../../lib/orcamento-flows";
+import { FABRICA_FOTO, banco } from "../../lib/home";
+const borda = "!border-white [&>*]:!border-white";
+---
+<section class="container-x mt-12" aria-labelledby="h-fabrica">
+  <div class="bg-ink p-5 text-white sm:p-8 lg:p-10">
+    <div class="flex flex-wrap items-end justify-between gap-5 border-b border-white/15 pb-6">
+      <div>
+        <span class={`etiqueta bg-ink ${borda}`}><span class="fab"><span class="val">Fábrica própria</span></span><span><span class="val">CNC e laser</span></span><span><span class="val">São Paulo</span></span></span>
+        <h2 id="h-fabrica" class="t-banner mt-4 !text-[32px] !leading-[0.98] sm:!text-[44px]">O que a nossa fábrica <span class="text-seg">faz sob medida</span></h2>
+        <p class="mt-3 max-w-xl text-[15px] text-white/70">Escolha o tipo, diga a medida e o material. O orçamento sai pelo WhatsApp, com prazo.</p>
+      </div>
+      <a href="/fabricacao/" class="btn-amarelo">Orçar placa sob medida <ArrowRight className="h-4 w-4" aria-hidden="true" /></a>
+    </div>
+    <ul class="mt-6 grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-4 lg:gap-x-4">
+      {ORCAMENTO_FABRICACAO.flows.map((f) => { const ft = FABRICA_FOTO[f.id]; return (
+        <li>
+          <a href={`/fabricacao/?tipo=${f.id}`} class="group block">
+            <span class="relative block aspect-[4/3] overflow-hidden bg-white/5">
+              {ft && <img src={banco(ft.foto)} alt="" width="960" height="720" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]" style={`object-position:${ft.pos}`} data-trocar="foto de peça feita por eles" />}
+              {ft?.ia && <span class="absolute left-2 top-2 bg-ink/80 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.06em] text-white/75">imagem ilustrativa</span>}
+            </span>
+            <span class="mt-3 flex items-start justify-between gap-2 text-[15px] font-semibold leading-5 group-hover:text-seg">{f.label}<ArrowRight className="mt-0.5 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true" /></span>
+            <span class="mt-1 block text-[13px] leading-5 text-white/60">{f.resumo}</span>
+          </a>
+        </li>); })}
+    </ul>
+    <p class="mt-8 text-xs text-white/65">Fotos de banco de imagem, só no protótipo. Na versão final entram fotos das peças feitas na fábrica.</p>
+  </div>
+</section>

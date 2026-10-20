@@ -104,3 +104,37 @@
 .barra-entra { animation: sobe 200ms ease-out; }
 @keyframes gaveta { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 .gaveta-entra { animation: gaveta 240ms cubic-bezier(0.2, 0, 0, 1); }
+
+/*
+ * HOME DE VAREJO (v2, 20/10/2026). Pedido do Matheus: home no modelo Super EPI / Loja do Mecânico
+ * (carrossel de banners, atalhos, categorias com foto, vitrines). Banner é HTML: foto real do catálogo
+ * recortada + foto de banco + tipografia; nada de texto queimado em imagem. Regras no design-guide §Home v2.
+ */
+@layer components {
+  .t-banner { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: -0.012em; line-height: 0.96; }
+  .zebra { background-image: repeating-linear-gradient(-45deg, var(--color-seg) 0 12px, var(--color-ink) 12px 24px); }
+  .btn-amarelo { @apply btn border border-ink bg-seg text-ink hover:bg-[#ffd42e]; }
+  .btn-branco { @apply btn bg-white text-vinho-deep hover:bg-vinho-soft; }
+  .btn-carvao { @apply btn bg-ink text-white hover:bg-black; }
+  .chip-claro { @apply inline-flex min-h-9 items-center border border-white/40 px-3 text-[13px] font-medium text-white hover:border-white hover:bg-white/10; }
+  .produto-flutua { filter: drop-shadow(0 14px 14px rgb(30 29 27 / 0.22)); }
+  .rolagem { @apply flex overflow-x-auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .rolagem::-webkit-scrollbar { display: none; }
+  .rolagem > * { scroll-snap-align: start; }
+  .seta { @apply inline-flex h-10 w-10 cursor-pointer items-center justify-center border border-line-strong bg-surface text-ink hover:border-ink disabled:cursor-default disabled:opacity-35; }
+}
+
+/* carrossel: trilho horizontal; o slide que entra anima as peças marcadas com data-anim (o primeiro, no load, não anima: LCP) */
+.carrossel-trilho { display: flex; height: 100%; transition: transform 640ms cubic-bezier(0.2, 0, 0, 1); }
+.carrossel-trilho > [data-slide] { flex: 0 0 100%; }
+@keyframes entra { from { opacity: 0; transform: translate3d(var(--dx, 0), var(--dy, 20px), 0) scale(var(--s, 1)); } to { opacity: 1; transform: none; } }
+.entrando [data-anim] { animation: entra 640ms cubic-bezier(0.2, 0, 0, 1) both; animation-delay: var(--d, 0ms); }
+@keyframes aproxima { from { transform: scale(1.08); } to { transform: scale(1); } }
+.entrando .foto-lenta { animation: aproxima 7s linear both; }
+.ponto-barra { transform: scaleX(0); transform-origin: left; }
+[data-ponto][aria-current="true"] .ponto-barra { transform: scaleX(1); }
+[data-carrossel][data-tocando="1"] [data-ponto][aria-current="true"] .ponto-barra { transform: scaleX(0); animation: barra var(--dur, 6500ms) linear forwards; }
+[data-carrossel][data-pausado="1"] .ponto-barra { animation-play-state: paused !important; }
+@keyframes barra { to { transform: scaleX(1); } }
+@keyframes zebra-anda { to { background-position: 33.94px 0; } }
+.zebra-anda { animation: zebra-anda 1.6s linear infinite; }

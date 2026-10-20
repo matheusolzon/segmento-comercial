@@ -1,0 +1,30 @@
+---
+/* Fileira de atalhos escuros logo abaixo do topo (as "caixas" da Super EPI). Cada uma leva a uma porta de compra. */
+import { HardHat, Ruler, FileText, Truck, Store, MessageCircle } from "lucide-react";
+import { EMPRESA } from "../../lib/site";
+const wa = `https://api.whatsapp.com/send?phone=${EMPRESA.whatsappDigits}&text=${encodeURIComponent("Olá! Quero fazer um pedido pelo site.")}`;
+const atalhos = [
+  { href: "#segmentos", Icone: HardHat, titulo: "Por segmento", sub: "Kit pronto por operação" },
+  { href: "/fabricacao/", Icone: Ruler, titulo: "Placa sob medida", sub: "Fábrica própria" },
+  { href: "/empresas/", Icone: FileText, titulo: "Cotação CNPJ", sub: "Proposta formal" },
+  { href: "/c/veicular-e-frota/", Icone: Truck, titulo: "Kit caminhão", sub: "NBR 9735" },
+  { href: "/contato/", Icone: Store, titulo: "Retire na loja", sub: "Casa Verde Alta, SP" },
+  { href: wa, Icone: MessageCircle, titulo: "Pedir no WhatsApp", sub: "Lista inteira numa mensagem", externo: true },
+];
+---
+<nav class="container-x mt-3 lg:mt-4" aria-label="Atalhos">
+  <ul class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6 lg:gap-3">
+    {atalhos.map(({ href, Icone, titulo, sub, externo }) => (
+      <li>
+        <a href={href} {...(externo ? { target: "_blank", rel: "noopener", "data-wa": "atalho" } : {})} class="group relative flex h-full min-h-[84px] items-center gap-3 overflow-hidden bg-ink p-3 text-white hover:bg-black sm:min-h-[96px] sm:p-4">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center border border-ink bg-seg text-ink"><Icone className="h-5 w-5" aria-hidden="true" /></span>
+          <span class="min-w-0">
+            <span class="t-banner block text-[15px] leading-[1.05] sm:text-[17px]">{titulo}</span>
+            <span class="mt-1 block text-[12px] leading-4 text-white/60">{sub}</span>
+          </span>
+          <span class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-seg transition-transform duration-200 group-hover:scale-x-100" aria-hidden="true"></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

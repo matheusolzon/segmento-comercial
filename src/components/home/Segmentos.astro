@@ -1,0 +1,22 @@
+---
+/* Compre por segmento: foto do tipo de operação + faixa escura (o "Compre por profissão" da Super EPI).
+ * Leva ao configurador de /empresas já com o segmento escolhido. */
+import { SEGMENTOS_FOTO, banco } from "../../lib/home";
+---
+<section id="segmentos" class="container-x mt-12 scroll-mt-28" aria-labelledby="h-segmentos">
+  <div class="secao-cabeca"><h2 id="h-segmentos">Compre por segmento</h2><a href="/empresas/" class="text-sm font-medium text-vinho-deep hover:underline">Cotação para empresa</a></div>
+  <ul class="grid grid-cols-2 gap-2 md:grid-cols-5 lg:gap-3">
+    {SEGMENTOS_FOTO.map((s, i) => (
+      <li class={i === SEGMENTOS_FOTO.length - 1 ? "col-span-2 md:col-span-1" : ""}>
+        <a href={`/empresas/?segmento=${s.id}`} class={`group relative block overflow-hidden bg-ink ${i === SEGMENTOS_FOTO.length - 1 ? "aspect-[16/9] md:aspect-[3/4]" : "aspect-[3/4]"}`}>
+          <img src={banco(s.foto)} alt="" width="960" height="640" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]" style={`object-position:${s.pos}`} />
+          <span class="absolute inset-x-0 bottom-0 bg-ink px-3 pb-3 pt-2.5 text-white transition-colors group-hover:bg-vinho">
+            <span class="block text-[11px] font-semibold uppercase tracking-[0.06em] text-seg">Kit para</span>
+            <span class="t-banner block text-[17px] sm:text-[19px]">{s.nome}</span>
+            <span class="mt-1 hidden text-[12px] leading-4 text-white/65 sm:block">{s.resumo}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,17 @@
+---
+/* Prateleira rolável de produtos (4 por tela no desktop, 2 no celular), com o mesmo card do catálogo. */
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProdutoCardR from "../islands/ProdutoCardR";
+import type { ItemCard } from "../../lib/tipos-cliente";
+interface Props { id: string; titulo: string; href: string; linkTexto: string; produtos: ItemCard[] }
+const { id, titulo, href, linkTexto, produtos } = Astro.props;
+---
+<section class="container-x mt-12" aria-labelledby={id} data-rolagem>
+  <div class="secao-cabeca">
+    <h2 id={id}>{titulo}</h2>
+    <span class="flex items-center gap-2"><a href={href} class="mr-2 text-sm font-medium text-vinho-deep hover:underline">{linkTexto}</a><span class="hidden gap-2 sm:flex"><button type="button" class="seta" data-rolar="-1" aria-label="Produtos anteriores"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button><button type="button" class="seta" data-rolar="1" aria-label="Mais produtos"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button></span></span>
+  </div>
+  <ul class="rolagem border-l border-t border-line" data-rolagem-lista>
+    {produtos.map((p) => <li class="w-1/2 shrink-0 border-b border-r border-line sm:w-1/3 lg:w-1/4"><ProdutoCardR p={p} /></li>)}
+  </ul>
+</section>

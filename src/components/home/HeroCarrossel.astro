@@ -2,6 +2,7 @@
 /* Topo da home v2: carrossel de 4 banners + 2 banners laterais (desenho da Super EPI).
  * Banner é HTML: recorte de produto real do catálogo, foto de banco e tipografia. Nada de texto em imagem.
  * Celular: texto em cima, imagem ocupa o resto (flex). Desktop: imagem absoluta à direita.
+ * Abaixo de lg (topo carvão) o carrossel sangra: sem margem lateral e colado no header, texto alinhado ao logo.
  * O 1º slide não anima no load (é o LCP); os outros animam as peças [data-anim] quando entram. */
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, Pause, Play } from "lucide-react";
 import { aPartirDe, totalDe, emEstoque, recorte, banco } from "../../lib/home";
@@ -11,12 +12,12 @@ const fab = [["transito", "Trânsito"], ["veicular", "Frota"], ["seguranca", "NR
 const segs = [["obra", "Obra"], ["galpao", "Galpão"], ["frota", "Frota"], ["industria", "Indústria"], ["condominio", "Condomínio"]];
 const borda = "!border-white [&>*]:!border-white";
 const titulo = "t-banner !text-[34px] sm:!text-[40px] xl:!text-[46px]";
-const texto = "relative z-10 order-1 flex flex-col p-5 pb-4 pt-6 sm:p-8 md:h-full md:justify-center md:p-10 xl:pl-12";
+const texto = "relative z-10 order-1 flex flex-col px-4 pb-4 pt-6 sm:p-8 md:h-full md:justify-center md:p-10 xl:pl-12";
 const visual = "relative order-2 min-h-0 flex-1 md:absolute md:inset-y-0 md:right-0";
 ---
-<section class="container-x pt-4 lg:pt-5" aria-label="Destaques">
+<section class="container-x lg:pt-5" aria-label="Destaques">
   <div class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_368px] lg:gap-4">
-    <div class="flex min-w-0 flex-col" data-carrossel role="region" aria-roledescription="carrossel" aria-label="Destaques da loja" data-pausado="0" data-tocando="0" style="--dur:6500ms">
+    <div class="-mx-4 flex min-w-0 flex-col sm:-mx-6 lg:mx-0" data-carrossel role="region" aria-roledescription="carrossel" aria-label="Destaques da loja" data-pausado="0" data-tocando="0" style="--dur:6500ms">
       <div class="relative h-[500px] overflow-hidden sm:h-[460px] lg:h-[440px]">
         <div class="carrossel-trilho" data-trilho>
 
@@ -111,7 +112,7 @@ const visual = "relative order-2 min-h-0 flex-1 md:absolute md:inset-y-0 md:righ
         </div>
       </div>
 
-      <div class="flex h-11 items-stretch border-x border-b border-line bg-white">
+      <div class="flex h-11 items-stretch border-b border-line bg-white lg:border-x">
         <div class="grid flex-1 grid-cols-4">
           {slides.map((nome, i) => (
             <button type="button" data-ponto aria-current={i === 0 ? "true" : "false"} class="group relative flex cursor-pointer items-center justify-center px-2 text-[13px] font-medium text-ink-muted hover:text-ink aria-[current=true]:text-ink" aria-label={`Ir para o destaque ${i + 1}: ${nome}`}>

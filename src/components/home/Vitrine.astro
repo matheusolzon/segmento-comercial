@@ -1,8 +1,9 @@
 ---
-/* Prateleira rolável de produtos (4 por tela no desktop, 2 no celular), com o mesmo card do catálogo. */
+/* Prateleira rolável de produtos (4 por tela no desktop; no celular 2 + a ponta do 3º (28 px), sangrando até a borda), com o mesmo card do catálogo. */
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import ProdutoCardR from "../islands/ProdutoCardR";
 import VerTodos from "./VerTodos.astro";
+import DicaRolagem from "./DicaRolagem.astro";
 import type { ItemCard } from "../../lib/tipos-cliente";
 interface Props { id: string; titulo: string; href: string; total: number; nome: string; produtos: ItemCard[] }
 const { id, titulo, href, total, nome, produtos } = Astro.props;
@@ -12,9 +13,12 @@ const { id, titulo, href, total, nome, produtos } = Astro.props;
     <h2 id={id}>{titulo}</h2>
     <span class="flex items-center gap-2"><a href={href} class="mr-2 hidden items-center gap-1 text-sm font-semibold text-vinho-deep underline underline-offset-4 hover:text-vinho sm:inline-flex">Ver todos <ArrowRight className="h-4 w-4" aria-hidden="true" /></a><span class="hidden gap-2 sm:flex"><button type="button" class="seta" data-rolar="-1" aria-label="Produtos anteriores"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button><button type="button" class="seta" data-rolar="1" aria-label="Mais produtos"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button></span></span>
   </div>
-  <ul class="rolagem border-l border-t border-line" data-rolagem-lista>
-    {produtos.map((p) => <li class="w-1/2 shrink-0 border-b border-r border-line sm:w-1/3 lg:w-1/4"><ProdutoCardR p={p} /></li>)}
+  <div class="relative -mx-4 sm:mx-0" data-rolagem-caixa>
+    <ul class="rolagem border-line px-4 scroll-px-4 sm:border-l sm:border-t sm:px-0 sm:scroll-px-0" data-rolagem-lista>
+    {produtos.map((p) => <li class="w-[calc((100%-12px)/2)] shrink-0 border-y border-r border-line first:border-l sm:w-1/3 sm:border-t-0 sm:first:border-l-0 lg:w-1/4"><ProdutoCardR p={p} /></li>)}
     <VerTodos modo="cartao" href={href} total={total} nome={nome} />
-  </ul>
+    </ul>
+    <DicaRolagem nome="produtos" />
+  </div>
   <VerTodos modo="botao" href={href} total={total} nome={nome} />
 </section>

@@ -6,7 +6,7 @@ interface Props { href: string; total: number; nome: string; modo: "cartao" | "b
 const { href, total, nome, modo } = Astro.props;
 ---
 {modo === "cartao" ? (
-  <li class="w-1/2 shrink-0 border-b border-r border-line sm:w-1/3 lg:w-1/4">
+  <li class="w-[calc((100%-12px)/2)] shrink-0 border-y border-r border-line sm:w-1/3 sm:border-t-0 lg:w-1/4">
     <a href={href} class="group flex h-full min-h-[320px] flex-col items-center justify-center gap-4 bg-zinco p-5 text-center hover:bg-zinco-2">
       <span class="flex h-16 w-16 items-center justify-center bg-vinho text-white transition-colors group-hover:bg-vinho-deep"><ArrowRight className="h-7 w-7 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
       <span class="t-banner text-[22px]">Ver todos</span>

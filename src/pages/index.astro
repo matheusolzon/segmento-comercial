@@ -59,23 +59,57 @@ const fatos = [[`${EMPRESA.anos} anos`, "em Casa Verde Alta, SP"], [`${EMPRESA.g
 </Layout>
 
 <script>
-  /* Setas das fileiras roláveis: rola uma tela; desliga a seta no começo/fim. Na vitrine com abas, vale o painel visível. */
+  /* Fileiras roláveis. Setas do cabeçalho (sm+) agem na lista visível (na vitrine com abas, a do painel aberto);
+   * as setas e a régua de cada [data-rolagem-caixa] (celular, DicaRolagem) agem na própria lista.
+   * Seta desliga na ponta; régua mostra o trecho à vista. No celular, a fileira dá um empurrão de ~48 px ao entrar
+   * na tela pela 1ª vez, pra mostrar que anda pro lado (fora com reduced-motion ou se a pessoa já rolou). */
+  const reduzMov = matchMedia("(prefers-reduced-motion: reduce)");
+  const celular = matchMedia("(max-width: 639.98px)");
   const listaDe = (raiz: Element) => [...raiz.querySelectorAll<HTMLElement>("[data-rolagem-lista]")].find((l) => !l.closest("[hidden]"));
+  const pontas = (l: HTMLElement) => ({ ini: l.scrollLeft <= 2, fim: l.scrollLeft + l.clientWidth >= l.scrollWidth - 2 });
+  const atualizarCaixa = (l: HTMLElement) => {
+    const caixa = l.closest<HTMLElement>("[data-rolagem-caixa]"); if (!caixa || !l.clientWidth) return;
+    const { ini, fim } = pontas(l);
+    caixa.querySelectorAll<HTMLButtonElement>("[data-rolar]").forEach((b) => { b.disabled = Number(b.dataset.rolar) < 0 ? ini : fim; });
+    const regua = caixa.querySelector<HTMLElement>("[data-regua]");
+    if (regua) { regua.style.width = `${Math.min(100, (l.clientWidth / l.scrollWidth) * 100)}%`; regua.style.transform = `translateX(${(l.scrollLeft / l.clientWidth) * 100}%)`; }
+  };
+  const posicionarSetas = (l: HTMLElement) => {
+    const caixa = l.closest<HTMLElement>("[data-rolagem-caixa]"); const img = l.querySelector("img");
+    if (!caixa || !img || !l.clientWidth) return;
+    const c = caixa.getBoundingClientRect(), r = img.getBoundingClientRect();
+    caixa.style.setProperty("--seta-y", `${Math.round(r.top - c.top + r.height / 2 - 22)}px`);
+  };
   const atualizarSetas = (raiz: Element) => {
     const l = listaDe(raiz); if (!l) return;
-    const [a, b] = raiz.querySelectorAll<HTMLButtonElement>("[data-rolar]");
-    if (a) a.disabled = l.scrollLeft <= 2;
-    if (b) b.disabled = l.scrollLeft + l.clientWidth >= l.scrollWidth - 2;
+    const { ini, fim } = pontas(l);
+    raiz.querySelectorAll<HTMLButtonElement>("[data-rolar]").forEach((b) => { if (!b.closest("[data-rolagem-caixa]")) b.disabled = Number(b.dataset.rolar) < 0 ? ini : fim; });
+    atualizarCaixa(l); posicionarSetas(l);
   };
+  const cutucar = new IntersectionObserver((itens) => itens.forEach(({ target, isIntersecting }) => {
+    const l = target as HTMLElement;
+    if (!isIntersecting || l.dataset.cutucou || !celular.matches || reduzMov.matches) return;
+    l.dataset.cutucou = "1";
+    if (l.scrollLeft > 2 || pontas(l).fim) return;
+    l.classList.add("cutuca");
+    setTimeout(() => l.classList.remove("cutuca"), 1400);
+  }), { threshold: 0.6 });
   document.querySelectorAll("[data-rolagem]").forEach((raiz) => {
-    raiz.querySelectorAll("[data-rolagem-lista]").forEach((l) => l.addEventListener("scroll", () => atualizarSetas(raiz), { passive: true }));
+    raiz.querySelectorAll<HTMLElement>("[data-rolagem-lista]").forEach((l) => {
+      l.addEventListener("scroll", () => (l === listaDe(raiz) ? atualizarSetas(raiz) : atualizarCaixa(l)), { passive: true });
+      /* quem tocou antes do empurrão já sabe que arrasta */
+      l.addEventListener("touchstart", () => { l.dataset.cutucou = "1"; l.classList.remove("cutuca"); }, { passive: true });
+      cutucar.observe(l);
+    });
     raiz.querySelectorAll<HTMLButtonElement>("[data-rolar]").forEach((b) => b.addEventListener("click", () => {
-      const l = listaDe(raiz); if (!l) return;
-      const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      l.scrollBy({ left: Number(b.dataset.rolar) * l.clientWidth * 0.92, behavior: reduz ? "auto" : "smooth" });
+      const l = b.closest("[data-rolagem-caixa]")?.querySelector<HTMLElement>("[data-rolagem-lista]") ?? listaDe(raiz); if (!l) return;
+      l.dataset.cutucou = "1";
+      l.scrollBy({ left: Number(b.dataset.rolar) * l.clientWidth * 0.92, behavior: reduzMov.matches ? "auto" : "smooth" });
     }));
     atualizarSetas(raiz);
   });
+  addEventListener("resize", () => document.querySelectorAll("[data-rolagem]").forEach(atualizarSetas), { passive: true });
+  addEventListener("load", () => document.querySelectorAll("[data-rolagem]").forEach(atualizarSetas));
   /* Abas (padrão WAI: setas entre abas, Home/End) */
   document.querySelectorAll("[data-abas]").forEach((raiz) => {
     const abas = [...raiz.querySelectorAll<HTMLButtonElement>('[role="tab"]')];

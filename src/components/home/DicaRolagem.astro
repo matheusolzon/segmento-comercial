@@ -1,0 +1,13 @@
+---
+/* Dica de rolagem no celular (Matheus, 06/11: quem tem pouca intimidade com internet não sabe que a fileira arrasta).
+ * Vai dentro de [data-rolagem-caixa], ao lado da lista: setas grandes por cima da fileira, na altura do centro da foto
+ * (--seta-y, calculado no script da home), e régua embaixo mostrando quanto da fileira está à vista.
+ * Some do sm pra cima: lá valem as setas do cabeçalho. A seta da ponta em que a fileira está some (disabled = hidden). */
+import { ChevronLeft, ChevronRight } from "lucide-react";
+interface Props { nome: string }
+const { nome } = Astro.props;
+const seta = "absolute top-[var(--seta-y,25%)] z-10 flex h-11 w-11 cursor-pointer items-center justify-center bg-ink text-white disabled:hidden sm:hidden";
+---
+<button type="button" class={`${seta} left-1`} data-rolar="-1" aria-label={`${nome[0].toUpperCase()}${nome.slice(1)} anteriores`} disabled><ChevronLeft className="h-6 w-6" aria-hidden="true" /></button>
+<button type="button" class={`${seta} right-1`} data-rolar="1" aria-label={`Mais ${nome}`}><ChevronRight className="h-6 w-6" aria-hidden="true" /></button>
+<div class="mx-4 mt-3 h-1 overflow-hidden bg-line sm:hidden" aria-hidden="true"><span class="block h-full w-2/5 bg-ink" data-regua></span></div>

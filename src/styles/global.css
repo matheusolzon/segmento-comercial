@@ -136,6 +136,10 @@
 [data-carrossel][data-tocando="1"] [data-ponto][aria-current="true"] .ponto-barra { transform: scaleX(0); animation: barra var(--dur, 6500ms) linear forwards; }
 [data-carrossel][data-pausado="1"] .ponto-barra { animation-play-state: paused !important; }
 @keyframes barra { to { transform: scaleX(1); } }
+/* empurrão da fileira no celular (1x ao entrar na tela): os itens andam ~48 px pra esquerda e voltam, mostrando que arrasta */
+@keyframes cutuca { 0%, 100% { transform: none; } 38%, 62% { transform: translate3d(-48px, 0, 0); } }
+.cutuca > * { animation: cutuca 1200ms cubic-bezier(0.4, 0, 0.2, 1) 1; }
+@media (prefers-reduced-motion: reduce) { .cutuca > * { animation: none; } }
 @keyframes zebra-anda { to { background-position: 33.94px 0; } }
 .zebra-anda { animation: zebra-anda 1.6s linear infinite; }
 
